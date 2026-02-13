@@ -1,4 +1,4 @@
-# ENSF381 — LAB 03
+# ENSF381 — LAB 03 (13 Feb 2026)
 
 ## Group Members
 
