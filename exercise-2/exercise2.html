@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 2: Simple Calculator</title>
+</head>
+<body>
+    <h1>Open the Console to See the Calculator in Action</h1>
+    <p>Right-click > Inspect > Console</p>
+
+    <script>
+        /* --- Exercise 2A: Declaring Functions --- */
+        /*
+        function add(a, b) {
+            return a + b;
+        }
+
+        function subtract(a, b) {
+            return a - b;
+        }
+        */
+
+        /* --- Exercise 2B: Using Default Parameters --- */
+        /*
+        function add(a, b = 5) {
+            return a + b;
+        }
+
+        function subtract(a, b = 5) {
+            return a - b;
+        }
+        */
+
+        /* --- Exercise 2C: Implementing Arrow Functions --- */
+        const add = (a, b = 5) => a + b;
+
+        const subtract = (a, b = 5) => a - b;
+
+        const multiply = (a, b) => a * b;
+
+        const divide = (a, b) => {
+            if (b === 0) {
+                console.error("Error: Division by zero is not allowed.");
+                return null;
+            }
+            return a / b;
+        };
+
+        /* --- Exercise 2D: Understanding Callback Functions --- */
+        /**
+         * A higher-order function that performs an operation on two numbers.
+         * @param {number} num1 
+         * @param {number} num2 
+         * @param {function} operation - The callback function
+         */
+        function calculator(num1, num2, operation) {
+            return operation(num1, num2);
+        }
+
+        // --- Testing in the Console ---
+        console.log("--- Testing Basic Arrow Functions ---");
+        console.log("Add (10 + 20):", add(10, 20));
+        console.log("Add with default (10 + 5):", add(10));
+        console.log("Multiply (6 * 7):", multiply(6, 7));
+        console.log("Divide (10 / 2):", divide(10, 2));
+        console.log("Divide by Zero:", divide(10, 0));
+
+        console.log("--- Testing Callback Function ---");
+        console.log("Calculator (Add):", calculator(10, 5, add));
+        console.log("Calculator (Divide):", calculator(50, 2, divide));
+
+    </script>
+</body>
+</html>
