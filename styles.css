@@ -1,0 +1,208 @@
+/* =========================================
+   Sweet Scoop Ice Cream - styles.css
+   Covers: index.html, login.html, menu_view.html
+   TBA: customize_order.html, order_summary.html
+   ========================================= */
+
+/* Basic reset / defaults */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================
+   Header (all pages)
+   ========================= */
+header {
+  background-color: #f9e2c8; /* soft beige */
+  display: flex;
+  align-items: center;       /* vertically center */
+  justify-content: flex-start; /* left */
+  gap: 10px;                 /* logo <-> name spacing */
+  padding: 15px 30px;
+  border-bottom: 2px solid #e4b48c; /* darker beige */
+}
+
+header img {
+  height: 60px;
+  width: auto;
+  display: block;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+/* =========================
+   Navigation (div directly below header)
+   ========================= */
+header + div {
+  background-color: #fff3e0; /* light cream */
+  text-align: center;        /* centre links */
+  padding: 10px;
+  border-bottom: 2px solid #e4b48c;
+}
+
+header + div nav a {
+  text-decoration: none;     /* no underline */
+  color: brown;
+  background-color: #f28c8c; /* soft pink */
+  font-weight: bold;
+  margin: 0 10px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+/* =========================
+   Main container (all pages)
+   - max width 1100px
+   - centred using flexbox
+   ========================= */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px; 
+}
+
+/* =========================
+   Homepage sections
+   ========================= */
+main section {
+  background-color: #fff8ee; /* light cream */
+  border-radius: 25px;
+  padding: 25px;
+  margin-bottom: 40px;
+  width: 100%;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08); /* subtle depth */
+}
+
+main section h2 {
+  text-align: center; /* centre section headings */
+  margin-top: 0;
+}
+
+/* =========================
+   Footer (all pages)
+   ========================= */
+footer {
+  background-color: #f9e2c8; /* matches header */
+  text-align: center;
+  padding: 15px;
+  border-top: 2px solid #e4b48c;
+}
+
+footer p {
+  margin: 0;
+}
+
+/* =========================================================
+   LOGIN PAGE (login.html)
+   ========================================================= */
+
+/* Centre-align the login form using flexbox */
+main section form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;   /* centre-align all form elements */
+  margin-bottom: 70px;  /* spacing between form and footer */
+}
+
+/* Input fields (username & password) */
+main section form input[type="text"],
+main section form input[type="password"] {
+  background-color: #fff8ee; /* light cream */
+  padding: 8px 10px;
+  border: 1px solid #e4b48c;
+  border-radius: 8px;
+}
+
+/* Login button */
+main section form button[type="submit"] {
+  background-color: #f28c8c; /* soft pink */
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+/* =========================================================
+   MENU VIEW (menu_view.html)
+   ========================================================= */
+
+/* Season / Promotion Dropdown (<select>) */
+main select {
+  background-color: #fff8ee; /* light cream */
+  border-radius: 10px;
+  padding: 6px 10px;
+  border: 1px solid #e4b48c;
+  display: block;
+  margin: 12px auto 0; /* centre horizontally */
+}
+
+/* Tiled layout container */
+.tiles {
+  text-align: center; 
+}
+
+/* Ice Cream Tiles */
+.tile {
+  background-color: #ffffff;
+  border: 20px solid transparent;
+  padding: 15px;
+  margin: 15px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  display: inline-block; 
+  vertical-align: top;
+  text-align: center;    /* centre content inside tile */
+  width: 280px;          
+}
+
+.tile img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Hyperlink to customize_order.html inside tiles */
+.tile a {
+  display: inline-block;
+  background-color: #f28c8c; /* soft pink */
+  color: #ffffff;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 8px 14px;
+  margin-top: 10px;
+}
+
+/* Add / Remove Buttons */
+.btn-add,
+.btn-remove {
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 14px;
+  cursor: pointer; /* pointer on hover */
+  margin: 6px 6px 0;
+}
+
+.btn-add {
+  background-color: #f28c8c; /* soft pink */
+}
+
+.btn-remove {
+  background-color: #c94c4c; /* darker red */
+}

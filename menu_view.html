@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sweet Scoop Ice Cream | Menu</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header>
+      <img src="images/logo.jpeg" alt="Sweet Scoop Ice Cream logo" />
+      <h1>Sweet Scoop Ice Cream</h1>
+    </header>
+
+    <!-- Navigation (div directly below header) -->
+    <div>
+      <nav aria-label="Primary">
+        <a href="index.html">Home</a>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Season / Promotion Dropdown -->
+      <section>
+        <h2>Current Season / Promotion</h2>
+        <label for="seasonSelect">Choose a season:</label>
+        <br />
+        <select id="seasonSelect" name="seasonSelect">
+          <option value="winter">Winter Specials</option>
+          <option value="fall">Fall Favourites</option>
+          <option value="summer">Summer Scoops</option>
+          <option value="spring">Spring Refreshers</option>
+        </select>
+      </section>
+
+      <!-- Available Flavors -->
+      <section>
+        <h2>Available Flavours</h2>
+
+        <div class="tiles">
+          <!-- Tile 1 -->
+          <article class="tile">
+            <h3>Vanilla Bean Dream</h3>
+            <p><strong>Category:</strong> Classic</p>
+            <img src="images/vanilla.jpeg" alt="Vanilla Bean Dream ice cream" />
+            <p>
+              Smooth vanilla bean ice cream with a rich, creamy finish and real
+              vanilla specks.
+            </p>
+            <p><strong>Price range:</strong> $4.00–$7.50</p>
+            <p><strong>Dietary:</strong> Vegetarian, Gluten-free</p>
+            <a href="customize_order.html">Customise this order</a>
+          </article>
+
+          <!-- Tile 2 -->
+          <article class="tile">
+            <h3>Chocolate Fudge Swirl</h3>
+            <p><strong>Category:</strong> Chocolate</p>
+            <img src="images/chocolate.jpeg" alt="Chocolate Fudge Swirl ice cream" />
+            <p>
+              Deep cocoa ice cream with ribbons of thick fudge swirled through
+              every scoop.
+            </p>
+            <p><strong>Price range:</strong> $4.50–$8.00</p>
+            <p><strong>Dietary:</strong> Vegetarian</p>
+            <a href="customize_order.html">Customise this order</a>
+          </article>
+
+          <!-- Tile 3 -->
+          <article class="tile">
+            <h3>Strawberry Shortcake Scoop</h3>
+            <p><strong>Category:</strong> Fruity</p>
+            <img src="images/strawberry.jpeg" alt="Strawberry Shortcake Scoop ice cream" />
+            <p>
+              Strawberry ice cream with cake bits and a light berry swirl for a
+              dessert-in-a-cone vibe.
+            </p>
+            <p><strong>Price range:</strong> $4.50–$8.00</p>
+            <p><strong>Dietary:</strong> Vegetarian</p>
+            <a href="customize_order.html">Customise this order</a>
+          </article>
+
+          <!-- Tile 4 -->
+          <article class="tile">
+            <h3>Mint Chip Crunch</h3>
+            <p><strong>Category:</strong> Mint</p>
+            <img src="images/mint.jpeg" alt="Mint Chip Crunch ice cream" />
+            <p>
+              Cool mint ice cream with chocolate chips and a crunchy chocolate
+              wafer bite.
+            </p>
+            <p><strong>Price range:</strong> $4.50–$8.00</p>
+            <p><strong>Dietary:</strong> Vegetarian, Gluten-free</p>
+            <a href="customize_order.html">Customise this order</a>
+          </article>
+
+          <!-- Tile 5 -->
+          <article class="tile">
+            <h3>Cookie Dough Delight</h3>
+            <p><strong>Category:</strong> Mix-ins</p>
+            <img src="images/cookie_dough.jpeg" alt="Cookie Dough Delight ice cream" />
+            <p>
+              Vanilla base packed with chunks of cookie dough and chocolate
+              chips.
+            </p>
+            <p><strong>Price range:</strong> $5.00–$8.50</p>
+            <p><strong>Dietary:</strong> Vegetarian</p>
+            <a href="customize_order.html">Customise this order</a>
+          </article>
+
+          <!-- Tile 6 -->
+          <article class="tile">
+            <h3>Mango Sorbet Splash</h3>
+            <p><strong>Category:</strong> Sorbet</p>
+            <img src="images/mango.jpeg" alt="Mango Sorbet Splash" />
+            <p>
+              Bright mango sorbet with a refreshing, juicy finish.
+            </p>
+            <p><strong>Price range:</strong> $4.00–$7.00</p>
+            <p><strong>Dietary:</strong> Vegan, Dairy-free, Gluten-free</p>
+            <a href="customize_order.html">Customise this order</a>
+          </article>
+        </div>
+      </section>
+
+      <!-- Seasonal Specials -->
+      <section>
+        <h2>Seasonal Specials</h2>
+
+        <div class="tiles">
+          <article class="tile">
+            <h3>Winter Peppermint Bark</h3>
+            <img src="images/peppermint.jpeg" alt="Winter Peppermint Bark special" />
+            <p><strong>Price:</strong> $5.50</p>
+            <button type="button" class="btn-add">Add</button>
+            <button type="button" class="btn-remove">Remove</button>
+          </article>
+
+          <article class="tile">
+            <h3>Spiced Apple Crumble</h3>
+            <img src="images/apple_crumble.jpeg" alt="Spiced Apple Crumble special" />
+            <p><strong>Price:</strong> $5.25</p>
+            <button type="button" class="btn-add">Add</button>
+            <button type="button" class="btn-remove">Remove</button>
+          </article>
+
+          <article class="tile">
+            <h3>Hot Cocoa Marshmallow</h3>
+            <img src="images/hot_cocoa.jpeg" alt="Hot Cocoa Marshmallow special" />
+            <p><strong>Price:</strong> $5.75</p>
+            <button type="button" class="btn-add">Add</button>
+            <button type="button" class="btn-remove">Remove</button>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2026 Sweet Scoop Ice Cream. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
