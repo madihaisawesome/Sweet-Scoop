@@ -1,93 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lab3 -- Exercise 1</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab3 -- Exercise 1</title>
 </head>
 <body>
-<h1>JavaScript Lab Exercise 1</h1>
-<script>
+  <h1>JavaScript Lab Exercise 1</h1>
 
-// START Exercise 1A: Variable Declaration
-var name = prompt("What is your name?");
-let message = "Hello, " + name + "! Welcome to JavaScript programming.";
-const greeting = "Have a great day!";
-// END Exercise 1A
+  <script>
+    // START Exercise 1A: Variable Declaration
+    /* 1. Declare one variable with var, one variable with let, and one variable with const.
+       Assign a different value to each variable. */
+    var varNumber = 10;
+    let letMessage = "Initial message";
+    const constValue = "Fixed value";
 
-// START Exercise 1B: String Operations
-/* Declare two string variables: */
-let string1 = "Hello, World!"
-let string2 = "JavaScript is fun!"
-/* Use a method to find the length of string1 and display it in the console. */
-console.log(string1.length);
-/* Concatenate string1 and string2 and log the result in the console. */
-let concatenatedString = string1 + " " + string2;
-/* Create a new variable string3 by replacing the word "fun" in string2 with "awesome",
-then display string3 in the console.*/
-let string3 = string2.replace("fun", "awesome");
-// END Exercise 1B
+    /* 2. Change the value of the variable declared using let and observe the behaviour. */
+    console.log("Original letMessage:", letMessage);
+    letMessage = "Updated message";
+    console.log("Updated letMessage:", letMessage);
 
-// START Exercise 1C: String Templates
-/* Declare the following variables for the tasks in this part */
-let name = "Alice"
-let age = 25
-/* Create a template literal using backticks ( ` ) and the variables name and age so that the
-result reads: "My name is Alice and I am 25 years old".
-Hint: Insert variables into the template literal using the ${variableName} syntax. */
-let introduction = `My name is ${name} and I am ${age} years old.`;
-/* Log the resulting template string in the console. */
-console.log(introduction);
-// END Exercise 1C
+    /* 3. Try to reassign the value of the const variable and note what happens.
+       4. Wrap the invalid assignment from step 3 in a try…catch block. Within catch,
+          log the message “Error: cannot reassign const”. */
+    try {
+      // This reassignment is invalid and will cause an error
+      constValue = "New value";
+    } catch (error) {
+      console.log("Error: cannot reassign const");
+    }
+    // END Exercise 1A
 
-// START Exercise 1D: Iteration
-/* Declare two arrays, one for student names and one for ages: */
-const students = ["Alice", "Tom", "Charlie"]
-const ages = [19, 21, 20]
-/* Use a for loop to iterate through the students array by index. 
-In each iteration, reuse the same template literal format from the previous section ("My
-name is ... and I am ... years old"), using matching indexes from both arrays, and log it to
-the console. */
-for (let i = 0; i < students.length; i++) {
-    let studentInfo = `My name is ${students[i]} and I am ${ages[i]} years old.`;
-    console.log(studentInfo);
-}
-// END Exercise 1D
+    // START Exercise 1B: String Operations
+    /* 1. Declare two string variables: */
+    let string1 = "Hello, World!";
+    let string2 = "JavaScript is fun!";
 
-// START Exercise 1E: Working with Dates
-/* Create a variable to store the current date using JavaScript’s Date object */
-let currentDate = new Date();
-/* Log the full date in the console in the en-CA and en-US formats. */
-console.log(currentDate.toLocaleDateString('en-CA')); // YYYY-MM-DD
-console.log(currentDate.toLocaleDateString('en-US')); // MM/DD/YYYY
-/* Use methods from the Date object to:
-- Extract and log the year (e.g., 2026).
-- Extract and log the month as a number (e.g., 1 for February). Note that these are
-zero-indexed unlike the output we got from logging the date in step 2.
-- Extract and log the day of the week from the date object (e.g., Friday).
-Hint: Use the weekday option with toLocaleDateString. */
-console.log(currentDate.getFullYear()); // Year
-console.log(currentDate.getMonth() + 1); // Month (add 1 since it's zero-indexed)
-console.log(currentDate.toLocaleDateString('en-US', { weekday: 'long' })); // Day of the week
-/* Determine and log the current season using the extracted month value.
-Hint: You may use if...else to map month numbers to seasons. Assume Northern
-Hemisphere seasons:
-- Winter: 11, 0, 1
-- Spring: 2, 3, 4
-- Summer: 5, 6, 7
-- Fall: 8, 9, 10 */
-let month = currentDate.getMonth() + 1; // Get month (1-12)
-let season;
-if (month === 11 || month === 12 || month === 1) {
-    season = "Winter";
-} else if (month >= 2 && month <= 4) {
-    season = "Spring";
-} else if (month >= 5 && month <= 7) {
-    season = "Summer";
-} else {
-    season = "Fall";
-}
+    /* 2. Use a method to find the length of string1 and display it in the console. */
+    console.log("Length of string1:", string1.length);
 
-</script>
+    /* 3. Concatenate string1 and string2 and log the result in the console. */
+    let concatenatedString = string1 + " " + string2;
+    console.log("Concatenated string:", concatenatedString);
+
+    /* 4. Create a new variable string3 by replacing the word "fun" in string2 with "awesome",
+          then display string3 in the console. */
+    let string3 = string2.replace("fun", "awesome");
+    console.log("string3:", string3);
+    // END Exercise 1B
+
+    // START Exercise 1C: String Templates
+    /* 1. Declare the following variables for the tasks in this part: */
+    let name = "Alice";
+    let age = 25;
+
+    /* 2. Create a template literal using backticks ( ` ) and the variables name and age so that the
+          result reads: "My name is Alice and I am 25 years old". */
+    let introduction = `My name is ${name} and I am ${age} years old`;
+
+    /* 3. Log the resulting template string in the console. */
+    console.log(introduction);
+    // END Exercise 1C
+
+    // START Exercise 1D: Iteration
+    /* 1. Declare two arrays, one for student names and one for ages: */
+    const students = ["Alice", "Tom", "Charlie"];
+    const ages = [19, 21, 20];
+
+    /* 2. Use a for loop to iterate through the students array by index.
+       3. In each iteration, reuse the same template literal format from the previous section
+          ("My name is ... and I am ... years old"), using matching indexes from both arrays,
+          and log it to the console. */
+    for (let i = 0; i < students.length; i++) {
+      let studentInfo = `My name is ${students[i]} and I am ${ages[i]} years old`;
+      console.log(studentInfo);
+    }
+    // END Exercise 1D
+
+    // START Exercise 1E: Working with Dates
+    /* 1. Create a variable to store the current date using JavaScript’s Date object. */
+    let currentDate = new Date();
+
+    /* 2. Log the full date in the console in the en-CA and en-US formats. */
+    console.log("Date (en-CA):", currentDate.toLocaleDateString("en-CA"));
+    console.log("Date (en-US):", currentDate.toLocaleDateString("en-US"));
+
+    /* 3. Use methods from the Date object to:
+          - Extract and log the year (e.g., 2026).
+          - Extract and log the month as a number (e.g., 1 for February). Note that these are
+            zero-indexed unlike the output we got from logging the date in step 2.
+          - Extract and log the day of the week from the date object (e.g., Friday). */
+    let year = currentDate.getFullYear();
+    console.log("Year:", year);
+
+    let monthIndex = currentDate.getMonth(); // 0 = January, 1 = February, etc.
+    console.log("Month (0 = January):", monthIndex);
+
+    let weekday = currentDate.toLocaleDateString("en-CA", { weekday: "long" });
+    console.log("Weekday:", weekday);
+
+    /* 4. Determine and log the current season using the extracted month value.
+          Assume Northern Hemisphere seasons:
+          - Winter: 11, 0, 1
+          - Spring: 2, 3, 4
+          - Summer: 5, 6, 7
+          - Fall: 8, 9, 10 */
+    let season;
+
+    if (monthIndex === 11 || monthIndex === 0 || monthIndex === 1) {
+      season = "Winter";
+    } else if (monthIndex >= 2 && monthIndex <= 4) {
+      season = "Spring";
+    } else if (monthIndex >= 5 && monthIndex <= 7) {
+      season = "Summer";
+    } else if (monthIndex >= 8 && monthIndex <= 10) {
+      season = "Fall";
+    }
+
+    console.log("Season:", season);
+    // END Exercise 1E
+  </script>
 </body>
 </html>
