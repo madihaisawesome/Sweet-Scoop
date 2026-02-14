@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab3 -- Exercise 1</title>
+</head>
+<body>
+<h1>JavaScript Lab Exercise 1</h1>
+<script>
+
+// START Exercise 1A: Variable Declaration
+var name = prompt("What is your name?");
+let message = "Hello, " + name + "! Welcome to JavaScript programming.";
+const greeting = "Have a great day!";
+// END Exercise 1A
+
+// START Exercise 1B: String Operations
+/* Declare two string variables: */
+let string1 = "Hello, World!"
+let string2 = "JavaScript is fun!"
+/* Use a method to find the length of string1 and display it in the console. */
+console.log(string1.length);
+/* Concatenate string1 and string2 and log the result in the console. */
+let concatenatedString = string1 + " " + string2;
+/* Create a new variable string3 by replacing the word "fun" in string2 with "awesome",
+then display string3 in the console.*/
+let string3 = string2.replace("fun", "awesome");
+// END Exercise 1B
+
+// START Exercise 1C: String Templates
+/* Declare the following variables for the tasks in this part */
+let name = "Alice"
+let age = 25
+/* Create a template literal using backticks ( ` ) and the variables name and age so that the
+result reads: "My name is Alice and I am 25 years old".
+Hint: Insert variables into the template literal using the ${variableName} syntax. */
+let introduction = `My name is ${name} and I am ${age} years old.`;
+/* Log the resulting template string in the console. */
+console.log(introduction);
+// END Exercise 1C
+
+// START Exercise 1D: Iteration
+/* Declare two arrays, one for student names and one for ages: */
+const students = ["Alice", "Tom", "Charlie"]
+const ages = [19, 21, 20]
+/* Use a for loop to iterate through the students array by index. 
+In each iteration, reuse the same template literal format from the previous section ("My
+name is ... and I am ... years old"), using matching indexes from both arrays, and log it to
+the console. */
+for (let i = 0; i < students.length; i++) {
+    let studentInfo = `My name is ${students[i]} and I am ${ages[i]} years old.`;
+    console.log(studentInfo);
+}
+// END Exercise 1D
+
+// START Exercise 1E: Working with Dates
+/* Create a variable to store the current date using JavaScript’s Date object */
+let currentDate = new Date();
+/* Log the full date in the console in the en-CA and en-US formats. */
+console.log(currentDate.toLocaleDateString('en-CA')); // YYYY-MM-DD
+console.log(currentDate.toLocaleDateString('en-US')); // MM/DD/YYYY
+/* Use methods from the Date object to:
+- Extract and log the year (e.g., 2026).
+- Extract and log the month as a number (e.g., 1 for February). Note that these are
+zero-indexed unlike the output we got from logging the date in step 2.
+- Extract and log the day of the week from the date object (e.g., Friday).
+Hint: Use the weekday option with toLocaleDateString. */
+console.log(currentDate.getFullYear()); // Year
+console.log(currentDate.getMonth() + 1); // Month (add 1 since it's zero-indexed)
+console.log(currentDate.toLocaleDateString('en-US', { weekday: 'long' })); // Day of the week
+/* Determine and log the current season using the extracted month value.
+Hint: You may use if...else to map month numbers to seasons. Assume Northern
+Hemisphere seasons:
+- Winter: 11, 0, 1
+- Spring: 2, 3, 4
+- Summer: 5, 6, 7
+- Fall: 8, 9, 10 */
+let month = currentDate.getMonth() + 1; // Get month (1-12)
+let season;
+if (month === 11 || month === 12 || month === 1) {
+    season = "Winter";
+} else if (month >= 2 && month <= 4) {
+    season = "Spring";
+} else if (month >= 5 && month <= 7) {
+    season = "Summer";
+} else {
+    season = "Fall";
+}
+
+</script>
+</body>
+</html>
