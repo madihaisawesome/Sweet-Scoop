@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Sweet Scoop Ice Cream | Customize Order</title>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+
+	<body>
+		<!-- Header -->
+		<header>
+			<img src="images/logo.jpeg" alt="Sweet Scoop Ice Cream logo" />
+			<h1>Sweet Scoop Ice Cream</h1>
+		</header>
+
+		<!-- Navigation (div directly below header) -->
+		<div>
+			<nav aria-label="Primary">
+				<a href="index.html">Home</a>
+				<a href="menu_view.html">Menu</a>
+			</nav>
+		</div>
+
+		<!-- Main Content -->
+		<main>
+			<img class="banner" src="images/Picture2.jpeg" alt="Ice cream banner" />
+
+			<form>
+				<section class="order-block">
+					<h2>Vanilla Dream</h2>
+					<p>Select your ice cream type:</p>
+
+					<label>
+						<input type="radio" name="vanillaType" value="cup" />
+						Cup
+					</label>
+					<br />
+					<label>
+						<input type="radio" name="vanillaType" value="cone" />
+						Cone
+					</label>
+					<br /><br />
+
+					<button type="button">Submit Selection</button>
+				</section>
+
+				<section class="order-block">
+					<h2>Chocolate Bliss</h2>
+					<p>Choose your toppings:</p>
+
+					<label>
+						<input type="checkbox" name="toppings" value="sprinkles" />
+						Sprinkles
+					</label>
+					<br />
+					<label>
+						<input type="checkbox" name="toppings" value="chocolate-chips" />
+						Chocolate Chips
+					</label>
+					<br />
+					<label>
+						<input type="checkbox" name="toppings" value="caramel" />
+						Caramel Drizzle
+					</label>
+					<br /><br />
+
+					<button type="button">Submit Selection</button>
+				</section>
+
+				<div class="finish-order">
+					<a href="order_summary.html">Finish Order</a>
+				</div>
+			</form>
+		</main>
+
+		<!-- Footer -->
+		<footer>
+			<p>&copy; 2026 Sweet Scoop Ice Cream. All rights reserved.</p>
+		</footer>
+	</body>
+</html>

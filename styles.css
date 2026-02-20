@@ -206,3 +206,68 @@ main select {
 .btn-remove {
   background-color: #c94c4c; /* darker red */
 }
+
+/* =========================================================
+   CUSTOMIZE ORDER (customize_order.html)
+   ========================================================= */
+
+.banner {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 20px;
+  border-radius: 12px;
+}
+
+main form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.finish-order {
+  margin-bottom: 20px;
+}
+
+.finish-order a {
+  display: inline-block;
+  background-color: #f28c8c; /* soft pink */
+  color: #ffffff;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 8px 14px;
+}
+
+/* =========================================================
+   ORDER SUMMARY (order_summary.html)
+   ========================================================= */
+
+.order-summary table {
+  border: 1px solid #000000;
+  border-collapse: collapse;
+  margin: 0 auto 20px;
+  background-color: #fff8ee;
+}
+
+.order-summary th,
+.order-summary td {
+  border: 1px solid #000000;
+  padding: 10px 15px;
+  text-align: left;
+}
+
+.order-actions a,
+.order-actions button {
+  display: inline-block;
+  background-color: #f28c8c; /* soft pink */
+  color: #ffffff;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 14px;
+  margin: 0 6px 10px;
+  cursor: pointer;
+}
