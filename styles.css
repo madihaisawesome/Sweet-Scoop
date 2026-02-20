@@ -1,8 +1,8 @@
-/* =========================================
+/* ===================================================  
    Sweet Scoop Ice Cream - styles.css
-   Covers: index.html, login.html, menu_view.html
-   TBA: customize_order.html, order_summary.html
-   ========================================= */
+   Covers: index.html, login.html, menu_view.html, 
+           customize_order.html, order_summary.html
+   =================================================== */
 
 /* Basic reset / defaults */
 * {
@@ -211,28 +211,48 @@ main select {
    CUSTOMIZE ORDER (customize_order.html)
    ========================================================= */
 
+/* Smaller banner image, centred */
 .banner {
   display: block;
-  max-width: 100%;
+  max-width: 260px;
   height: auto;
-  margin: 0 auto 20px;
+  margin: 20px auto;
+}
+
+/* Centre all text in each order block */
+.order-block {
+  text-align: center;
+}
+
+/* "Choose Type" / "Select Toppings" subtitles */
+.order-subtitle {
+  margin: 6px 0 10px;
+  font-size: 0.95rem;
+  font-weight: bold;
+}
+
+/* Pink submit buttons, centred */
+.submit-btn {
+  background-color: #f28c8c;
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
   border-radius: 12px;
+  padding: 8px 14px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto 10px;
 }
 
-main form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
+/* Finish Order button styled like the others and centred */
 .finish-order {
-  margin-bottom: 20px;
+  text-align: center;
+  margin-top: 10px;
 }
 
-.finish-order a {
+.finish-btn {
   display: inline-block;
-  background-color: #f28c8c; /* soft pink */
+  background-color: #f28c8c;
   color: #ffffff;
   font-weight: bold;
   text-decoration: none;

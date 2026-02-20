@@ -1,82 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Sweet Scoop Ice Cream | Customize Order</title>
-		<link rel="stylesheet" href="styles.css" />
-	</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sweet Scoop Ice Cream | Customize Order</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-	<body>
-		<!-- Header -->
-		<header>
-			<img src="images/logo.jpeg" alt="Sweet Scoop Ice Cream logo" />
-			<h1>Sweet Scoop Ice Cream</h1>
-		</header>
+  <body>
+    <!-- Header -->
+    <header>
+      <img src="images/logo.jpeg" alt="Sweet Scoop Ice Cream logo" />
+      <h1>Sweet Scoop Ice Cream</h1>
+    </header>
 
-		<!-- Navigation (div directly below header) -->
-		<div>
-			<nav aria-label="Primary">
-				<a href="index.html">Home</a>
-				<a href="menu_view.html">Menu</a>
-			</nav>
-		</div>
+    <!-- Navigation (div directly below header) -->
+    <div>
+      <nav aria-label="Primary">
+        <a href="index.html">Home</a> |
+        <a href="menu_view.html">Menu</a>
+      </nav>
+    </div>
 
-		<!-- Main Content -->
-		<main>
-			<img class="banner" src="images/Picture2.jpeg" alt="Ice cream banner" />
+    <!-- Main Content -->
+    <main>
+      <img class="banner" src="images/Picture2.jpeg" alt="Ice cream banner" />
 
-			<form>
-				<section class="order-block">
-					<h2>Vanilla Dream</h2>
-					<p>Select your ice cream type:</p>
+      <form>
+        <section class="order-block">
+          <h2>Vanilla Dream</h2>
+          <h3 class="order-subtitle">Choose Type</h3>
 
-					<label>
-						<input type="radio" name="vanillaType" value="cup" />
-						Cup
-					</label>
-					<br />
-					<label>
-						<input type="radio" name="vanillaType" value="cone" />
-						Cone
-					</label>
-					<br /><br />
+          <label>
+            <input type="radio" name="vanillaType" value="cup" />
+            <br />
+            Cup
+          </label>
+          <br /><br />
+          <label>
+            <input type="radio" name="vanillaType" value="cone" />
+            <br />
+            Cone
+          </label>
+          <br /><br />
 
-					<button type="button">Submit Selection</button>
-				</section>
+          <button type="button" class="submit-btn">Submit Selection</button>
+        </section>
 
-				<section class="order-block">
-					<h2>Chocolate Bliss</h2>
-					<p>Choose your toppings:</p>
+        <section class="order-block">
+          <h2>Chocolate Bliss</h2>
+          <h3 class="order-subtitle">Select Toppings</h3>
 
-					<label>
-						<input type="checkbox" name="toppings" value="sprinkles" />
-						Sprinkles
-					</label>
-					<br />
-					<label>
-						<input type="checkbox" name="toppings" value="chocolate-chips" />
-						Chocolate Chips
-					</label>
-					<br />
-					<label>
-						<input type="checkbox" name="toppings" value="caramel" />
-						Caramel Drizzle
-					</label>
-					<br /><br />
+          <label>
+            <input type="checkbox" name="toppings" value="sprinkles" />
+            <br />
+            Sprinkles
+          </label>
+          <br />
+          <label>
+            <input type="checkbox" name="toppings" value="chocolate-chips" />
+            <br />
+            Chocolate Chips
+          </label>
+          <br />
+          <label>
+            <input type="checkbox" name="toppings" value="caramel" />
+            <br />
+            Caramel Drizzle
+          </label>
+          <br /><br />
 
-					<button type="button">Submit Selection</button>
-				</section>
+          <button type="button" class="submit-btn">Submit Selection</button>
+        </section>
 
-				<div class="finish-order">
-					<a href="order_summary.html">Finish Order</a>
-				</div>
-			</form>
-		</main>
+        <div class="finish-order">
+          <a href="order_summary.html" class="finish-btn">Finish Order</a>
+        </div>
+      </form>
+    </main>
 
-		<!-- Footer -->
-		<footer>
-			<p>&copy; 2026 Sweet Scoop Ice Cream. All rights reserved.</p>
-		</footer>
-	</body>
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2026 Sweet Scoop Ice Cream</p>
+    </footer>
+  </body>
 </html>
