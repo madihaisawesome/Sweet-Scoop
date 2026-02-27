@@ -1,4 +1,4 @@
-# ENSF381 — LAB 03 (13 Feb 2026)
+# ENSF381 — LAB 04 (27 Feb 2026)
 
 ## Group Members
 
@@ -10,4 +10,4 @@
   * Email: madiha.khan@ucalgary.ca
  
 ## Lab Description
-The main objective of this lab is to build a solid understanding of fundamental JavaScript concepts and how to apply them in practice. Students will develop skills in working with variables, strings, and dates, writing and using functions, and manipulating core data structures such as arrays and objects. By completing the tasks and testing code in the browser’s developer console, students will gain hands-on experience writing dynamic and efficient JavaScript programs.
+The objective of this lab is to provide students with practical experience in building dynamic and interactive web applications using JavaScript and browser APIs. In this lab, we practice selecting Document Object Model (DOM) elements, attaching event handlers with addEventListener, updating webpage content and styles through the DOM, and working with an API endpoint to fetch, display, sort, and delete user data.
