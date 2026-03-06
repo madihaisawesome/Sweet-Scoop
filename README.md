@@ -1,4 +1,4 @@
-# ENSF381 — LAB 04 (27 Feb 2026)
+# ENSF381 — LAB 05 (06 Mar 2026)
 
 ## Group Members
 
@@ -10,7 +10,8 @@
   * Email: madiha.khan@ucalgary.ca
  
 ## Lab Description
-The objective of this lab is to provide students with practical experience in building dynamic and interactive web applications using JavaScript and browser APIs. In this lab, we practice selecting Document Object Model (DOM) elements, attaching event handlers with addEventListener, updating webpage content and styles through the DOM, and working with an API endpoint to fetch, display, sort, and delete user data.
+In this lab, we will focus on fundamental React concepts. Specifically, we will explore the fundamentals of React by practicing JSX, creating reusable
+components, and passing data using props. We will also learn how to render lists efficiently and improve code organization by modularizing components into separate files.
 
 ## Repo Structure
 ```
