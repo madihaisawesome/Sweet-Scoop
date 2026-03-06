@@ -12,32 +12,3 @@
 ## Lab Description
 In this lab, we will focus on fundamental React concepts. Specifically, we will explore the fundamentals of React by practicing JSX, creating reusable
 components, and passing data using props. We will also learn how to render lists efficiently and improve code organization by modularizing components into separate files.
-
-## Repo Structure
-```
-C:.
-│   README.md
-│
-├───exercise-1
-│   ├───screenshots
-│   │       exercise-1.png
-│   │
-│   └───src
-│           exercise-1.html
-│
-├───exercise-2
-│   └───screenshots
-│           Step12.png
-│           Step14.png
-│           Step9.png
-│
-└───exercise-3
-    ├───screenshots
-    │       a.png
-    │       b.png
-    │       b_cropped.png
-    │
-    └───src
-            exercise3.html
-            exercise3.js
-```
