@@ -6,6 +6,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sweet Scoop Ice Cream | Menu</title>
     <link rel="stylesheet" href="styles.css" />
+    <style>
+        /* (c) Hover effect: highlight tiles on hover */
+        .tile:hover {
+            background-color: #ffffff;
+        }
+
+        /* Cart styling */
+        .cart-section {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 2px solid #ddd;
+        }
+
+        .cart-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .cart-empty {
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        .cart-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-row:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+        }
+
+        .cart-line-total {
+            min-width: 90px;
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
 </head>
 
 <body>
@@ -124,25 +170,39 @@
                     <h3>Pepperpint Snow</h3>
                     <img src="images/Picture1.webp" alt="Pepperpint Snow special" />
                     <p><strong>Price:</strong> $5.59</p>
-                    <button type="button" class="btn-add">Add</button>
-                    <button type="button" class="btn-remove">Remove</button>
+
+                    <!-- Add data-name + data-price so JS can build the cart -->
+                    <button type="button" class="btn-add" data-name="Pepperpint Snow" data-price="5.59">Add to Cart</button>
+                    <button type="button" class="btn-remove" data-name="Pepperpint Snow">Remove from Cart</button>
                 </article>
 
                 <article class="tile">
                     <h3>Caramel Apple Crunch</h3>
                     <img src="images/Picture1.webp" alt="Caramel Apple Crunch special" />
                     <p><strong>Price:</strong> $6.49</p>
-                    <button type="button" class="btn-add">Add</button>
-                    <button type="button" class="btn-remove">Remove</button>
+
+                    <button type="button" class="btn-add" data-name="Caramel Apple Crunch" data-price="6.49">Add to Cart</button>
+                    <button type="button" class="btn-remove" data-name="Caramel Apple Crunch">Remove from Cart</button>
                 </article>
 
                 <article class="tile">
                     <h3>Maple Pecan Delight</h3>
                     <img src="images/Picture1.webp" alt="Maple Pecan Delight special" />
                     <p><strong>Price:</strong> $6.29</p>
-                    <button type="button" class="btn-add">Add</button>
-                    <button type="button" class="btn-remove">Remove</button>
+
+                    <button type="button" class="btn-add" data-name="Maple Pecan Delight" data-price="6.29">Add to Cart</button>
+                    <button type="button" class="btn-remove" data-name="Maple Pecan Delight">Remove from Cart</button>
                 </article>
+            </div>
+        </section>
+
+        <!-- (a) CART SECTION at bottom of Menu View content -->
+        <section class="cart-section" aria-live="polite">
+            <div class="cart-container">
+                <h2>Cart</h2>
+                <div id="cartItems">
+                    <p class="cart-empty">No items in cart.</p>
+                </div>
             </div>
         </section>
     </main>
@@ -151,6 +211,85 @@
     <footer>
         <p>&copy; 2026 Sweet Scoop Ice Cream. All rights reserved.</p>
     </footer>
+
+    <!-- (b) Dynamic cart management: no page reload -->
+    <script>
+        // cart structure:
+        // cart[name] = { qty: number, price: number }
+        const cart = {};
+
+        const cartItemsEl = document.getElementById("cartItems");
+
+        function formatMoney(value) {
+            // Always show 2 decimals, prefixed with $
+            return "$" + Number(value).toFixed(2);
+        }
+
+        function renderCart() {
+            cartItemsEl.innerHTML = "";
+
+            const names = Object.keys(cart);
+
+            if (names.length === 0) {
+                const p = document.createElement("p");
+                p.className = "cart-empty";
+                p.textContent = "No items in cart.";
+                cartItemsEl.appendChild(p);
+                return;
+            }
+
+            names.sort().forEach((name) => {
+                const item = cart[name];
+                const lineTotal = item.qty * item.price;
+
+                const row = document.createElement("div");
+                row.className = "cart-row";
+
+                const left = document.createElement("div");
+                left.className = "cart-item-name";
+                left.textContent = `${name} (${item.qty})`;
+
+                const right = document.createElement("div");
+                right.className = "cart-line-total";
+                right.textContent = formatMoney(lineTotal);
+
+                row.appendChild(left);
+                row.appendChild(right);
+
+                cartItemsEl.appendChild(row);
+            });
+        }
+
+        // Add handlers
+        document.querySelectorAll(".btn-add").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                const name = e.currentTarget.dataset.name;
+                const price = Number(e.currentTarget.dataset.price);
+
+                if (!cart[name]) {
+                    cart[name] = { qty: 0, price };
+                }
+
+                cart[name].qty += 1;
+                renderCart();
+            });
+        });
+
+        // Remove handlers
+        document.querySelectorAll(".btn-remove").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                const name = e.currentTarget.dataset.name;
+
+                if (cart[name]) {
+                    delete cart[name];
+                    renderCart();
+                }
+            });
+        });
+
+        // Initial render (shows empty state)
+        renderCart();
+    </script>
 </body>
 
 </html>
