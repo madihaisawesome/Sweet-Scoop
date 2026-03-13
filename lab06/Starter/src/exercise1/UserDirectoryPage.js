@@ -6,14 +6,17 @@ import UserList from './UserList';
 
 function UserDirectoryPage() {
   const [users, setUsers] = useState([]);
-  const [sortBy, setSortBy] = useState('id'); // "id" or "group"
-  const [viewMode, setViewMode] = useState('grid'); // "grid" or "list"
+  const [sortBy, setSortBy] = useState('id');
+  const [viewMode, setViewMode] = useState('grid');
 
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const res = await fetch('/users_api/users');
-        if (!res.ok) throw new Error(`Failed to fetch users (${res.status})`);
+        const res = await fetch('https://69a1dad52e82ee536fa260fc.mockapi.io/users_api');
+        if (!res.ok) {
+          throw new Error(`Failed to fetch users (${res.status})`);
+        }
+
         const data = await res.json();
         setUsers(Array.isArray(data) ? data : []);
       } catch (err) {
@@ -31,14 +34,18 @@ function UserDirectoryPage() {
     if (!Number.isFinite(id)) return;
 
     try {
-      const res = await fetch(`/users_api/users/${id}`, {
-        method: 'DELETE',
-      });
+      const res = await fetch(
+        `https://69a1dad52e82ee536fa260fc.mockapi.io/users_api/${id}`,
+        {
+          method: 'DELETE',
+        }
+      );
 
-      if (!res.ok) throw new Error(`Failed to delete user (${res.status})`);
+      if (!res.ok) {
+        throw new Error(`Failed to delete user (${res.status})`);
+      }
 
-      // update state after successful delete
-      setUsers((prev) => prev.filter((u) => u.id !== id));
+      setUsers((prev) => prev.filter((u) => Number(u.id) !== id));
     } catch (err) {
       console.error(err);
     }
@@ -48,11 +55,9 @@ function UserDirectoryPage() {
     setSortBy('group');
     setUsers((prev) => {
       const sorted = [...prev].sort((a, b) => {
-        const ag = (a.user_group ?? '').toString();
-        const bg = (b.user_group ?? '').toString();
-        const cmp = ag.localeCompare(bg);
-        if (cmp !== 0) return cmp;
-        return (a.id ?? 0) - (b.id ?? 0);
+        const groupCompare = String(a.user_group).localeCompare(String(b.user_group));
+        if (groupCompare !== 0) return groupCompare;
+        return Number(a.id) - Number(b.id);
       });
       return sorted;
     });
@@ -61,7 +66,7 @@ function UserDirectoryPage() {
   function handleSortByIdClick() {
     setSortBy('id');
     setUsers((prev) => {
-      const sorted = [...prev].sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
+      const sorted = [...prev].sort((a, b) => Number(a.id) - Number(b.id));
       return sorted;
     });
   }
@@ -84,10 +89,6 @@ function UserDirectoryPage() {
           onSortByIdClick={handleSortByIdClick}
           onViewToggleClick={handleViewToggleClick}
         />
-        {/* optional: show current state */}
-        <p style={{ marginTop: '0.75rem' }}>
-          Sort: <strong>{sortBy}</strong> · View: <strong>{viewMode}</strong>
-        </p>
       </section>
 
       <section className="panel">
