@@ -1,3 +1,5 @@
+/* src/App.css */
+
 * {
   box-sizing: border-box;
 }
@@ -151,4 +153,30 @@ input {
   .user-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ===== Exercise 2 styles added ===== */
+
+.ttt-board {
+  width: fit-content;
+}
+
+.board-row {
+  display: flex;
+}
+
+.square {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #162033;
+  background: #ffffff;
+  font-size: 24px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ttt-status {
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: #162033;
 }
