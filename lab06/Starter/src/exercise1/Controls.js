@@ -1,3 +1,4 @@
+// src/exercise1/Controls.js
 import { useState } from 'react';
 
 function Controls({
@@ -16,33 +17,24 @@ function Controls({
           id="delete-id-input"
           type="number"
           value={deleteId}
-          // add an onChange handler that updates deleteId with setDeleteId
+          onChange={(e) => setDeleteId(e.target.value)}
         />
         <button
           className="btn btn-danger"
-          // add an onClick handler that calls onDeleteClick(deleteId)
+          onClick={() => onDeleteClick(deleteId)}
         >
           Delete
         </button>
       </div>
 
       <div className="other-controls">
-        <button
-          className="btn"
-          // add an onClick handler that calls onSortByGroupClick
-        >
+        <button className="btn" onClick={onSortByGroupClick}>
           Sort by Group
         </button>
-        <button
-          className="btn"
-          // add an onClick handler that calls onSortByIdClick
-        >
+        <button className="btn" onClick={onSortByIdClick}>
           Sort by ID
         </button>
-        <button
-          className="btn"
-          // add an onClick handler that calls onViewToggleClick
-        >
+        <button className="btn" onClick={onViewToggleClick}>
           Grid / List View
         </button>
       </div>

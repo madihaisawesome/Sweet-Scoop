@@ -1,3 +1,4 @@
+// src/exercise1/UserList.js
 import UserCard from './UserCard';
 
 function UserList({ users, viewMode }) {
@@ -5,13 +6,10 @@ function UserList({ users, viewMode }) {
     return <p>No users found.</p>;
   }
 
+  const containerClass = viewMode === 'list' ? 'user-list' : 'user-grid';
+
   return (
-    <div
-      // use viewMode to switch between the `user-grid` and `user-list` classes. 
-      // When viewMode is "grid", the class should be "user-grid". 
-      // When viewMode is "list", the class should be "user-list".
-      className="user-grid"
-    >
+    <div className={containerClass}>
       {users.map((user) => (
         <UserCard key={user.id} user={user} />
       ))}
