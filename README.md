@@ -1,4 +1,4 @@
-# ENSF381 — LAB 05 (06 Mar 2026)
+# ENSF381 — LAB 06 (13 Mar 2026)
 
 ## Group Members
 
@@ -10,5 +10,4 @@
   * Email: madiha.khan@ucalgary.ca
  
 ## Lab Description
-In this lab, we will focus on fundamental React concepts. Specifically, we will explore the fundamentals of React by practicing JSX, creating reusable
-components, and passing data using props. We will also learn how to render lists efficiently and improve code organization by modularizing components into separate files.
+In this lab, we built on what we have learned in React by completing the React re-implementation of the User Directory and designing a Tic-Tac-Toe game. This lab will help reinforce key concepts like component structure, state management, and event handling while giving you hands-on experience with React’s core principles.
