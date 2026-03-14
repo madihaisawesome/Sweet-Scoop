@@ -1,180 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sweet Scoop Ice Cream | Customize Order</title>
-    <link rel="stylesheet" href="styles.css" />
-    <style>
-      /* Timer at top of main content */
-      .order-timer {
-        text-align: center;
-        font-weight: 700;
-        font-size: 1.25rem;
-        margin: 1rem 0;
-      }
 
-      /* Price display sits right before Finish Order button */
-      .price-display {
-        text-align: center;
-        font-weight: 700;
-        margin: 1rem 0;
-      }
-    </style>
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <title>Sweet Scoop Ice Cream - Customize Order</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
-  <body>
-    <!-- Header -->
-    <header>
-      <img src="images/logo.jpeg" alt="Sweet Scoop Ice Cream logo" />
-      <h1>Sweet Scoop Ice Cream</h1>
-    </header>
+<body>
 
-    <!-- Navigation (div directly below header) -->
-    <div>
-      <nav aria-label="Primary">
-        <a href="index.html">Home</a> |
-        <a href="menu_view.html">Menu</a>
-      </nav>
-    </div>
+  <header>
+    <img src="images/logo.jpeg" alt="Sweet Scoop logo">
+    <h1>Sweet Scoop Ice Cream</h1>
+  </header>
 
-    <!-- Main Content -->
-    <main>
-      <img class="banner" src="images/Picture2.jpeg" alt="Ice cream banner" />
 
-      <!-- (a) 10-minute countdown timer at top of main content -->
-      <div class="order-timer">
-        Order timer: <span id="timer">10:00</span>
-      </div>
+  <div class="navbar">
+    <a href="index.html">Home</a>
+    <span class="nav-separator">|</span>
+    <a href="menu_view.html">Menu</a>
+  </div>
 
-      <form id="orderForm">
-        <section class="order-block">
+  <div class="customize-main">
+    <main class="customize-container">
+
+      <p id="order-timer" style="font-weight: bold;">Order Time Left: 10:00</p>
+
+      <img class="banner" src="images/Picture2.jpeg" alt="Ice cream banner">
+
+      <form>
+        <div class="section-card customize-card">
           <h2>Vanilla Dream</h2>
-          <h3 class="order-subtitle">Choose Type</h3>
+          <p><strong>Choose Type:</strong></p>
+          <input type="radio" id="vanilla_cup" name="vanilla_type" value="Cup">
+          <label for="vanilla_cup">Cup</label>
+          <br><br>
+          <input type="radio" id="vanilla_cone" name="vanilla_type" value="Cone">
+          <label for="vanilla_cone">Cone</label>
+        </div>
 
-          <!-- (b) Base flavour required (radio) -->
-          <label>
-            <input type="radio" name="baseFlavor" value="cup" />
-            <br />
-            Cup
-          </label>
-          <br /><br />
-          <label>
-            <input type="radio" name="baseFlavor" value="cone" />
-            <br />
-            Cone
-          </label>
-          <br /><br />
-        </section>
+        <br>
 
-        <section class="order-block">
+        <div class="section-card customize-card">
           <h2>Chocolate Bliss</h2>
-          <h3 class="order-subtitle">Select Toppings</h3>
-
-          <!-- (b) At least one topping required (checkbox) -->
-          <label>
-            <input type="checkbox" name="toppings" value="sprinkles" />
-            <br />
-            Sprinkles
-          </label>
-          <br />
-          <label>
-            <input type="checkbox" name="toppings" value="chocolate-chips" />
-            <br />
-            Chocolate Chips
-          </label>
-          <br />
-          <label>
-            <input type="checkbox" name="toppings" value="caramel" />
-            <br />
-            Caramel Drizzle
-          </label>
-          <br /><br />
-        </section>
-
-        <!-- (c) Total price display immediately before Finish Order button -->
-        <div class="price-display">
-          Total Price: <span id="totalPrice">$0.00</span>
+          <p><strong>Select toppings:</strong></p>
+          <input type="checkbox" id="top_sprinkles" name="toppings" value="Sprinkles">
+          <label for="top_sprinkles">Sprinkles</label>
+          <br><br>
+          <input type="checkbox" id="top_chips" name="toppings" value="Chocolate Chips">
+          <label for="top_chips">Chocolate Chips</label>
+          <br><br>
+          <input type="checkbox" id="top_whipped" name="toppings" value="Whipped Cream">
+          <label for="top_whipped">Whipped Cream</label>
         </div>
 
-        <div class="finish-order">
-          <!-- Use a submit button so we can validate + calculate on submit -->
-          <button type="submit" class="finish-btn">Finish Order</button>
-        </div>
+        <br>
+
+        <p id="total-price" style="font-weight: bold;">Total Price: $6.00</p>
+
+        <button class="button-pink submit-order-btn" type="button" onclick="submitOrder()">Submit Order</button>
       </form>
     </main>
+  </div>
 
-    <!-- Footer -->
-    <footer>
-      <p>&copy; 2026 Sweet Scoop Ice Cream</p>
-    </footer>
 
-    <script>
-      // (a) 10-minute countdown timer (MM:SS), auto-start on load, redirect on expiry
-      const timerEl = document.getElementById("timer");
-      let remainingSeconds = 10 * 60; // 10 minutes
+  <footer>
+    <p>&copy; 2026 Sweet Scoop Ice Cream</p>
+  </footer>
 
-      function renderTimer() {
-        const mm = String(Math.floor(remainingSeconds / 60)).padStart(2, "0");
-        const ss = String(remainingSeconds % 60).padStart(2, "0");
-        timerEl.textContent = `${mm}:${ss}`;
+  <script>
+    var timeLeft = 600;
+
+    var timerInterval = setInterval(function () {
+      timeLeft = timeLeft - 1;
+      var minutes = Math.floor(timeLeft / 60);
+      var seconds = timeLeft % 60;
+      var mm = minutes < 10 ? "0" + minutes : minutes;
+      var ss = seconds < 10 ? "0" + seconds : seconds;
+      document.getElementById("order-timer").textContent = "Order Time Left: " + mm + ":" + ss;
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        window.location.href = "order_summary.html";
+      }
+    }, 1000);
+
+    function submitOrder() {
+      var cupChecked = document.getElementById("vanilla_cup").checked;
+      var coneChecked = document.getElementById("vanilla_cone").checked;
+
+      if (!cupChecked && !coneChecked) {
+        alert("Please select a base flavor (Cup or Cone).");
+        return;
       }
 
-      renderTimer();
-
-      const timerId = setInterval(() => {
-        remainingSeconds -= 1;
-        renderTimer();
-
-        if (remainingSeconds <= 0) {
-          clearInterval(timerId);
-          window.location.href = "order_summary.html";
+      var toppings = document.getElementsByName("toppings");
+      var toppingSelected = false;
+      for (var i = 0; i < toppings.length; i++) {
+        if (toppings[i].checked) {
+          toppingSelected = true;
         }
-      }, 1000);
+      }
 
-      // (b) Validation + (c) price calculation on submit
-      const form = document.getElementById("orderForm");
-      const totalPriceEl = document.getElementById("totalPrice");
+      if (!toppingSelected) {
+        alert("Please select at least one topping.");
+        return;
+      }
 
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        // Validate base flavour (radio required)
-        const baseRadios = document.querySelectorAll('input[name="baseFlavor"]');
-        let baseSelected = false;
-        for (const r of baseRadios) {
-          if (r.checked) {
-            baseSelected = true;
-            break;
-          }
+      var basePrice = 6;
+      var toppingCount = 0;
+      for (var i = 0; i < toppings.length; i++) {
+        if (toppings[i].checked) {
+          toppingCount = toppingCount + 1;
         }
+      }
+      var totalPrice = basePrice + (toppingCount * 1.50);
 
-        // Validate toppings (at least one checkbox required)
-        const toppingChecks = document.querySelectorAll('input[name="toppings"]');
-        let toppingCount = 0;
-        for (const c of toppingChecks) {
-          if (c.checked) toppingCount += 1;
+      document.getElementById("total-price").textContent = "Total Price: $" + totalPrice.toFixed(2);
+
+      var selectedType = cupChecked ? "Cup" : "Cone";
+      var selectedToppings = [];
+      for (var i = 0; i < toppings.length; i++) {
+        if (toppings[i].checked) {
+          selectedToppings.push(toppings[i].value);
         }
+      }
 
-        if (!baseSelected) {
-          alert("Please select one base flavour.");
-          return;
-        }
+      localStorage.setItem("orderType", selectedType);
+      localStorage.setItem("orderToppings", selectedToppings.join(", "));
+      localStorage.setItem("orderTotal", "$" + totalPrice.toFixed(2));
 
-        if (toppingCount < 1) {
-          alert("Please select at least one topping.");
-          return;
-        }
-
-        // Price calc: base $6 + $1.50 per topping
-        const basePrice = 6.0;
-        const total = basePrice + toppingCount * 1.5;
-
-        totalPriceEl.textContent = `$${total.toFixed(2)}`;
-
-        // Redirect:
+      setTimeout(function () {
         window.location.href = "order_summary.html";
-      });
-    </script>
-  </body>
+      }, 2000);
+    }
+  </script>
+
+</body>
+
 </html>

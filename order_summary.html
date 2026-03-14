@@ -1,66 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sweet Scoop Ice Cream | Order Summary</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
 
-  <body>
-    <!-- Header -->
-    <header>
-      <img src="images/logo.jpeg" alt="Sweet Scoop Ice Cream logo" />
-      <h1>Sweet Scoop Ice Cream</h1>
-    </header>
+<head>
+  <meta charset="UTF-8">
+  <title>Sweet Scoop Ice Cream - Order Summary</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
-    <!-- Navigation (div directly below header) -->
-    <div>
-      <nav aria-label="Primary">
-        <a href="index.html">Home</a> |
-        <a href="menu_view.html">Menu</a>
-      </nav>
-    </div>
+<body>
 
-    <!-- Main Content -->
-    <main>
-      <section class="order-summary">
-        <h2>Order Summary</h2>
+  <header>
+    <img src="images/logo.jpeg" alt="Sweet Scoop logo">
+    <h1>Sweet Scoop Ice Cream</h1>
+  </header>
 
-        <table>
-          <tr>
-            <th>Item</th>
-            <th>Details</th>
-          </tr>
-          <tr>
-            <td>Ice Cream</td>
-            <td>Vanilla Dream</td>
-          </tr>
-          <tr>
-            <td>Type</td>
-            <td>Cone</td>
-          </tr>
-          <tr>
-            <td>Toppings</td>
-            <td>Sprinkles, Nuts</td>
-          </tr>
-          <tr>
-            <td>Total Price</td>
-            <td>$6.50</td>
-          </tr>
-        </table>
 
-        <div class="order-actions" style="text-align: center;">
-          <a href="customize_order.html">Edit Order</a>
-          <br /><br />
-          <button type="button">Confirm Order</button>
-        </div>
-      </section>
+  <div class="navbar">
+    <a href="index.html">Home</a>
+    <span class="nav-separator">|</span>
+    <a href="menu_view.html">Menu</a>
+  </div>
+
+  <div class="summary-main">
+    <main class="summary-container">
+      <h2>Order Summary</h2>
+
+      <table class="summary-table">
+        <tr>
+          <th>Item</th>
+          <th>Details</th>
+        </tr>
+        <tr>
+          <td>Flavor</td>
+          <td>Vanilla Dream</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td id="summary-type">Cone</td>
+        </tr>
+        <tr>
+          <td>Toppings</td>
+          <td id="summary-toppings">Sprinkles, Nuts</td>
+        </tr>
+        <tr>
+          <td>Total Price</td>
+          <td id="summary-total">$6.50</td>
+        </tr>
+      </table>
+
+      <div class="button-row">
+        <a class="button-pink" href="customize_order.html">Edit Order</a>
+        <br><br>
+        <button class="button-pink" type="button">Confirm Order</button>
+      </div>
     </main>
+  </div>
 
-    <!-- Footer -->
-    <footer>
-      <p>&copy; 2026 Sweet Scoop Ice Cream</p>
-    </footer>
-  </body>
+
+  <script>
+    var savedType = localStorage.getItem("orderType");
+    var savedToppings = localStorage.getItem("orderToppings");
+    var savedTotal = localStorage.getItem("orderTotal");
+
+    if (savedType) {
+      document.getElementById("summary-type").textContent = savedType;
+    }
+    if (savedToppings) {
+      document.getElementById("summary-toppings").textContent = savedToppings;
+    }
+    if (savedTotal) {
+      document.getElementById("summary-total").textContent = savedTotal;
+    }
+  </script>
+
+  <footer>
+    <p>&copy; 2026 Sweet Scoop Ice Cream</p>
+  </footer>
+
+</body>
+
 </html>

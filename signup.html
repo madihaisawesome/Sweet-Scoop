@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Sweet Scoop Ice Cream - Signup</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header>
+    <img src="images/logo.jpeg" alt="Sweet Scoop logo">
+    <h1>Sweet Scoop Ice Cream</h1>
+  </header>
+
+
+  <div class="navbar">
+    <a href="login.html">Login</a>
+  </div>
+
+  <div class="login-main">
+    <main class="login-container">
+      <form id="signup-form">
+        <h2>Signup</h2>
+        <br>
+        <label for="signup-username">Username</label>
+        <br>
+        <input id="signup-username" type="text" name="username">
+        <br><br>
+
+        <label for="signup-email">Email</label>
+        <br>
+        <input id="signup-email" type="text" name="email">
+        <br><br>
+
+        <label for="signup-password">Password</label>
+        <br>
+        <input id="signup-password" type="password" name="password">
+        <br><br>
+
+        <label for="signup-confirm">Confirm Password</label>
+        <br>
+        <input id="signup-confirm" type="password" name="confirm_password">
+        <br><br>
+
+        <button class="button-signup" type="button" onclick="signupUser()">Signup</button>
+      </form>
+
+      <div id="signup-message"></div>
+    </main>
+  </div>
+
+
+  <footer>
+    <p>&copy; 2026 Sweet Scoop Ice Cream</p>
+  </footer>
+
+  <script>
+    function signupUser() {
+      var username = document.getElementById("signup-username").value;
+      var email = document.getElementById("signup-email").value;
+      var password = document.getElementById("signup-password").value;
+      var confirmPassword = document.getElementById("signup-confirm").value;
+      var messageBox = document.getElementById("signup-message");
+      var errors = [];
+
+
+      if (username.length < 3 || username.length > 20) {
+        errors.push("Invalid username (Must be 3-20 characters, start with a letter, alphanumeric/hyphens/underscores only)");
+      } else if (!/^[a-zA-Z]/.test(username)) {
+        errors.push("Invalid username (Must be 3-20 characters, start with a letter, alphanumeric/hyphens/underscores only)");
+      } else if (!/^[a-zA-Z][a-zA-Z0-9_-]*$/.test(username)) {
+        errors.push("Invalid username (Must be 3-20 characters, start with a letter, alphanumeric/hyphens/underscores only)");
+      }
+
+
+      var hasUppercase = false;
+      var hasLowercase = false;
+      var hasNumber = false;
+      var hasSpecial = false;
+      var hasSpace = false;
+      var specialChars = "!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~";
+
+      for (var i = 0; i < password.length; i++) {
+        var ch = password[i];
+        if (ch >= "A" && ch <= "Z") hasUppercase = true;
+        if (ch >= "a" && ch <= "z") hasLowercase = true;
+        if (ch >= "0" && ch <= "9") hasNumber = true;
+        if (specialChars.indexOf(ch) !== -1) hasSpecial = true;
+        if (ch === " ") hasSpace = true;
+      }
+
+      if (password.length < 8 || !hasUppercase || !hasLowercase || !hasNumber || !hasSpecial || hasSpace) {
+        errors.push("Invalid password (Min 8 characters, uppercase, lowercase, number, special character, no spaces)");
+      }
+
+
+      if (password !== confirmPassword) {
+        errors.push("Passwords do not match");
+      }
+
+
+      if (email.indexOf(" ") !== -1) {
+        errors.push("Invalid email (Must contain @ and end with .com, .net, or .io)");
+      } else if (email.indexOf("@") === -1) {
+        errors.push("Invalid email (Must contain @ and end with .com, .net, or .io)");
+      } else {
+        var parts = email.split("@");
+        if (parts.length !== 2 || parts[0] === "" || parts[1] === "") {
+          errors.push("Invalid email (Must contain @ and end with .com, .net, or .io)");
+        } else {
+          var domain = parts[1];
+          var validEnding = false;
+          if (domain.length >= 4 && domain.substring(domain.length - 4) === ".com") validEnding = true;
+          if (domain.length >= 4 && domain.substring(domain.length - 4) === ".net") validEnding = true;
+          if (domain.length >= 3 && domain.substring(domain.length - 3) === ".io") validEnding = true;
+          if (!validEnding) {
+            errors.push("Invalid email (Must contain @ and end with .com, .net, or .io)");
+          }
+        }
+      }
+
+      if (errors.length > 0) {
+        messageBox.innerHTML = "";
+        for (var i = 0; i < errors.length; i++) {
+          var line = document.createElement("div");
+          line.textContent = errors[i];
+          messageBox.appendChild(line);
+        }
+        messageBox.className = "message-box error-message";
+        return;
+      }
+
+      messageBox.textContent = "Signup successful! Redirecting to login...";
+      messageBox.className = "message-box success-message";
+
+      setTimeout(function () {
+        window.location.href = "login.html";
+      }, 2000);
+    }
+  </script>
+
+</body>
+
+</html>

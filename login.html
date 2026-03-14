@@ -1,57 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sweet Scoop Ice Cream | Login</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
 
-  <body>
-    <!-- Header -->
-    <header>
-      <img src="images/logo.jpeg" alt="Sweet Scoop Ice Cream logo" />
-      <h1>Sweet Scoop Ice Cream</h1>
-    </header>
+<head>
+  <meta charset="UTF-8">
+  <title>Sweet Scoop Ice Cream - Login</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
-    <!-- Navigation (div directly below header) -->
-    <div>
-      <nav aria-label="Primary">
-        <a href="index.html">Home</a>
-      </nav>
-    </div>
+<body>
 
-    <!-- Main Content -->
-    <main>
-      <section>
-        <!-- This is the only welcome text -->
+  <header>
+    <img src="images/logo.jpeg" alt="Sweet Scoop logo">
+    <h1>Sweet Scoop Ice Cream</h1>
+  </header>
+
+
+  <div class="navbar">
+    <a href="index.html">Home</a>
+  </div>
+
+  <div class="login-main">
+    <main class="login-container">
+      <form id="login-form">
         <h2>Welcome Back!</h2>
+        <br>
+        <label for="username">Username</label>
+        <br>
+        <input id="username" type="text" name="username">
+        <br><br>
 
-        <form action="menu_view.html">
-          <label for="username">Username:</label>
-          <br />
-          <input type="text" id="username" name="username" required />
-          <br /><br />
+        <label for="password">Password (Email)</label>
+        <br>
+        <input id="password" type="password" name="password">
+        <br><br>
 
-          <label for="password">Password:</label>
-          <br />
-          <input type="password" id="password" name="password" required />
-          <br /><br />
+        <input id="forgot" type="checkbox" name="forgot">
+        <label for="forgot">Forgot Password</label>
+        <br><br>
 
-          <label for="forgot">
-            <input type="checkbox" id="forgot" name="forgot" />
-            Forgot Password
-          </label>
-          <br /><br />
+        <button class="button-pink" type="button" onclick="loginUser()">Login</button>
+        <br><br>
 
-          <button type="submit">Login</button>
-        </form>
-      </section>
+        <span>New user?</span>
+        <a class="button-pink" href="signup.html">Create an account</a>
+      </form>
+
+      <div id="login-message"></div>
     </main>
+  </div>
 
-    <!-- Footer -->
-    <footer>
-      <p>&copy; 2026 Sweet Scoop Ice Cream</p>
-    </footer>
-  </body>
+
+  <footer>
+    <p>&copy; 2026 Sweet Scoop Ice Cream</p>
+  </footer>
+
+  <script>
+    function loginUser() {
+      var username = document.getElementById("username").value;
+      var password = document.getElementById("password").value;
+      var messageBox = document.getElementById("login-message");
+
+      if (username === "" || password === "") {
+        messageBox.textContent = "Please enter both username and password.";
+        messageBox.className = "message-box error-message";
+        return;
+      }
+
+      fetch("https://jsonplaceholder.typicode.com/users")
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (users) {
+          var matchedUser = null;
+
+          for (var i = 0; i < users.length; i++) {
+            if (users[i].username.toLowerCase() === username.toLowerCase()) {
+              matchedUser = users[i];
+            }
+          }
+
+          if (matchedUser === null) {
+            messageBox.textContent = "Invalid username. Please try again.";
+            messageBox.className = "message-box error-message";
+            return;
+          }
+
+          if (matchedUser.email !== password) {
+            messageBox.textContent = "Invalid password. Please try again.";
+            messageBox.className = "message-box error-message";
+            return;
+          }
+
+          messageBox.textContent = "Login successful! Redirecting...";
+          messageBox.className = "message-box success-message";
+
+          setTimeout(function () {
+            window.location.href = "menu_view.html";
+          }, 2000);
+        })
+        .catch(function (error) {
+          messageBox.textContent = "Error connecting to server. Please try again later.";
+          messageBox.className = "message-box error-message";
+        });
+    }
+  </script>
+
+</body>
+
 </html>
