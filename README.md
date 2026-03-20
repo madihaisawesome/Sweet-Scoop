@@ -1,4 +1,4 @@
-# ENSF381 — LAB 06 (13 Mar 2026)
+# ENSF381 — LAB 07 (20 Mar 2026)
 
 ## Group Members
 
@@ -10,4 +10,4 @@
   * Email: madiha.khan@ucalgary.ca
  
 ## Lab Description
-In this lab, we built on what we have learned in React by completing the React re-implementation of the User Directory and designing a Tic-Tac-Toe game. This lab will help reinforce key concepts like component structure, state management, and event handling while giving you hands-on experience with React’s core principles.
+In this lab, we will create a Python tool that analyzes the structure and content of web pages. Along the way, we will revisit some key Python basics while working with BeautifulSoup, a powerful library for web scraping. We will get to extract text, find common words, and even visualize the data we gather.
