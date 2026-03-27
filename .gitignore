@@ -1,0 +1,8 @@
+.history/
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+Students/frontend/node_modules/
+Students/backend/src/random_forest_model.pkl
