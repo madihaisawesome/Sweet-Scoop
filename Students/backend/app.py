@@ -32,9 +32,6 @@ PREDICTION_COLUMNS = [
 ]
 
 app = Flask(__name__)
-# For this lab, allow cross-origin requests from the React dev server.
-# This broad setup keeps local development simple and is not standard
-# production practice.
 CORS(app)
 users = deepcopy(SEEDED_USERS)
 
@@ -137,8 +134,85 @@ def delete_user(user_id):
     return jsonify({"message": f"Deleted user {user_id}."}), 200
 
 
-# Exercise2
-# - POST /predict_house_price
+@app.route("/predict_house_price", methods=["POST"])
+def predict_house_price():
+    try:
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"message": "Request body must be valid JSON."}), 400
+
+        required_fields = [
+            "city",
+            "province",
+            "latitude",
+            "longitude",
+            "lease_term",
+            "type",
+            "beds",
+            "baths",
+            "sq_feet",
+            "furnishing",
+            "smoking",
+            "pets",
+        ]
+
+        for field in required_fields:
+            if field not in data:
+                return jsonify({"message": f"{field} is required."}), 400
+
+        try:
+            city = str(data["city"])
+            province = str(data["province"])
+            latitude = float(data["latitude"])
+            longitude = float(data["longitude"])
+            lease_term = str(data["lease_term"])
+            house_type = str(data["type"])
+            beds = float(data["beds"])
+            baths = float(data["baths"])
+            sq_feet = float(data["sq_feet"])
+            furnishing = str(data["furnishing"])
+            smoking = str(data["smoking"])
+        except (TypeError, ValueError):
+            return (
+                jsonify(
+                    {
+                        "message": "latitude, longitude, beds, baths, and sq_feet must be numbers."
+                    }
+                ),
+                400,
+            )
+
+        pets = bool(data["pets"])
+        cats = pets
+        dogs = pets
+
+        model = joblib.load(MODEL_PATH)
+
+        sample_data = [
+            city,
+            province,
+            latitude,
+            longitude,
+            lease_term,
+            house_type,
+            beds,
+            baths,
+            sq_feet,
+            furnishing,
+            smoking,
+            cats,
+            dogs,
+        ]
+
+        sample_df = pd.DataFrame([sample_data], columns=PREDICTION_COLUMNS)
+
+        predicted_price = float(model.predict(sample_df)[0])
+
+        return jsonify({"predicted_price": predicted_price}), 200
+
+    except Exception as error:
+        return jsonify({"message": str(error)}), 400
 
 
 if __name__ == "__main__":
