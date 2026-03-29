@@ -1,15 +1,12 @@
+// Header.js
 import { Link } from "react-router-dom";
 
 function Header() {
   return (
     <>
       <header>
-        <img
-          src="/images/logo.png"
-          alt="Sweet Scoop Logo"
-          width="80"
-        />
-        <h1>Sweet Scoop</h1>
+        <img src="/images/logo.jpeg" alt="Sweet Scoop Logo" width="80" />
+        <h1>Sweet Scoop Ice Cream Shop</h1>
       </header>
 
       <div className="navbar">

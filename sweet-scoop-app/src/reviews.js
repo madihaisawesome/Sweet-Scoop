@@ -7,13 +7,13 @@ const reviews = [
   },
   {
     customerName: "Sofia Martinez",
-    flavorName: "Rocky Road Rush",
+    flavorName: "Mango Tango",
     review: "Fresh and Fruity with just the right amount of sweetness.",
     rating: 5
   },
   {
     customerName: "Alex Chen",
-    flavorName: "Coffee Buzz",
+    flavorName: "Chocolate Heaven",
     review: "Rich chocolate flavour and the texture was perfectly smooth.",
     rating: 4
   },

@@ -1,7 +1,8 @@
+// Footer.js
 function Footer() {
   return (
     <footer>
-      <p>© 2026 Sweet Scoop. All rights reserved.</p>
+      <p>© 2026 Sweet Scoop Ice Cream Shop. All rights reserved.</p>
     </footer>
   );
 }

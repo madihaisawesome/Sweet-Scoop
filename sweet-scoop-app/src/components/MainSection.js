@@ -1,13 +1,14 @@
+// MainSection.js
 import { useEffect, useState } from "react";
-import flavors from "../data/flavors";
-import reviews from "../data/reviews";
+import flavors from "../flavors";
+import reviews from "../reviews";
 
 function MainSection() {
   const [featuredFlavors, setFeaturedFlavors] = useState([]);
   const [featuredReviews, setFeaturedReviews] = useState([]);
 
   const getRandomItems = (array, count) => {
-    const shuffled = [...array].sort(() => 0.5 - Math.random());
+    const shuffled = [...array].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, count);
   };
 
@@ -23,11 +24,12 @@ function MainSection() {
   return (
     <div className="mainsection">
       <section>
-        <h2>About Sweet Scoop</h2>
+        <h2>About Sweet Scoop Ice Cream</h2>
         <p>
-          Sweet Scoop Ice Cream is a family-owned business that has been serving delicious ice cream since 1990. We pride ourselves on using 
-          only the freshest ingredients to create our unique flavors. Whether you're in the mood for a classic vanilla or something more adventurous 
-          like our signature "Chocolate Explosion," we have something for everyone. Come visit us and treat yourself to a sweet scoop today!
+          Sweet Scoop is an ice cream shop that offers a variety of rich, creamy,
+          and refreshing flavours made with quality ingredients. Explore our
+          featured flavours, read what customers are saying, and discover your
+          next favourite scoop.
         </p>
       </section>
 
@@ -35,16 +37,13 @@ function MainSection() {
         <h2>Featured Flavors</h2>
         <div className="flavorgrid">
           {featuredFlavors.map((flavor) => (
-            <div key={flavor.id}>
-              <img
-                src={flavor.image}
-                alt={flavor.name}
-                width="150"
-              />
+            <div key={flavor.id} className="flavor-card">
               <h3>{flavor.name}</h3>
               <p>{flavor.description}</p>
-              <p>{flavor.price}</p>
-              <p>Available for: {flavor.duration}</p>
+              <p>
+                <strong>Price:</strong> {flavor.price}
+              </p>
+              <img src={flavor.image} alt={flavor.name} />
             </div>
           ))}
         </div>
@@ -53,7 +52,7 @@ function MainSection() {
       <section>
         <h2>Customer Reviews</h2>
         {featuredReviews.map((review, index) => (
-          <div key={index}>
+          <div key={index} className="review-card">
             <h3>{review.customerName}</h3>
             <p>{review.review}</p>
             <p>{getStars(review.rating)}</p>
