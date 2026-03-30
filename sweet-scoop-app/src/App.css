@@ -6,11 +6,24 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   background-color: #ffffff;
   color: #3d2a1f;
+}
+
+.page-shell,
+.flavors-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
@@ -113,6 +126,98 @@ header h1 {
 .review-card {
   text-align: center;
   margin-bottom: 20px;
+}
+
+.login-main {
+  margin: 10px auto 24px;
+  padding: 0;
+}
+
+.login-section {
+  max-width: 420px;
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.mainsection section.login-section {
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.login-section h2 {
+  text-align: center;
+  margin: 6px 0 10px;
+  font-size: 1.7rem;
+}
+
+.login-form {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  gap: 8px 4px;
+  align-items: center;
+  justify-content: center;
+  justify-items: start;
+}
+
+.login-form label {
+  font-weight: bold;
+  font-size: 0.9rem;
+  justify-self: end;
+}
+
+.login-form input {
+  width: 180px;
+  min-width: 0;
+  border: 1px solid #e4b48c;
+  border-radius: 4px;
+  background-color: #fff8ee;
+  padding: 2px 8px;
+  height: 28px;
+  font-size: 0.85rem;
+}
+
+.login-form button {
+  grid-column: 1 / -1;
+  justify-self: center;
+  background-color: #f28c8c;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 6px 14px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.8rem;
+  margin-top: 2px;
+}
+
+.login-form a {
+  grid-column: 1 / -1;
+  justify-self: center;
+  color: #3d2a1f;
+  text-decoration: none;
+  font-size: 0.88rem;
+  margin-top: 6px;
+}
+
+.status-message {
+  margin-top: 8px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.status-success {
+  color: #0a8a2a;
+}
+
+.status-error {
+  color: #b02222;
 }
 
 .flavors-page {
@@ -272,6 +377,7 @@ footer {
   text-align: center;
   padding: 15px;
   border-top: 2px solid #e4b48c;
+  margin-top: auto;
 }
 
 footer p {

@@ -2,10 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Homepage from "./components/Homepage";
 import FlavorsPage from "./components/FlavorsPage";
-
-function LoginPage() {
-  return <h2>Login Page</h2>;
-}
+import LoginPage from "./components/LoginPage";
 
 function App() {
   return (

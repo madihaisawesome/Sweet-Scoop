@@ -1,16 +1,15 @@
-// Homepage.js
 import Header from "./Header";
-import MainSection from "./MainSection";
+import LoginForm from "./LoginForm";
 import Footer from "./Footer";
 
-function Homepage() {
+function LoginPage() {
   return (
     <div className="page-shell">
       <Header />
-      <MainSection />
+      <LoginForm />
       <Footer />
     </div>
   );
 }
 
-export default Homepage;
+export default LoginPage;
