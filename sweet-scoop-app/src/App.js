@@ -1,10 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Homepage from "./components/Homepage";
-
-function FlavorsPage() {
-  return <h2>Flavors Page</h2>;
-}
+import FlavorsPage from "./components/FlavorsPage";
 
 function LoginPage() {
   return <h2>Login Page</h2>;
