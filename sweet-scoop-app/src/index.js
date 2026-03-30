@@ -1,3 +1,6 @@
+// Group Member: Madiha Khan (30144428)
+// Group Member: Sharar Masud (30205753)
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
