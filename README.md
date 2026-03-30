@@ -1,4 +1,4 @@
-# ENSF381 — Assignment 1 (20 Feb 2026)
+# ENSF381 — Assignment 3 (29 Mar 2026)
 
 ## Group Members
 
@@ -11,4 +11,6 @@
   
 ## Assignment Description
 
-The purpose of this assignment is to build the front-end of an Ice Cream Shop Ordering system. The focus will be on designing and organizing HTML components to simulate an Ice Cream Shop Ordering system. The goal is to create a visually appealing and user-friendly Ice Cream Shop Ordering System with the following pages: Homepage, Login Page, Menu View, Customize Order, and Order Summary. Focus solely on the HTML structure and CSS styling to create pages that are professional, visually appealing, and user-friendly.
+In this assignment, we will build the Sweet Scoop Ice Cream Shop application using React. We will
+create reusable components, manage state, and implement dynamic interactions while adhering
+to React best practices.
