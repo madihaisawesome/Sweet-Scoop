@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DisplayStatus from "./DisplayStatus";
 import { loginUser } from "../api";
+import { saveAuthState } from "../auth";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
@@ -31,13 +32,22 @@ function LoginForm() {
     setMessageType("");
     setMessage("");
     try {
-      await loginUser({
+      const response = await loginUser({
         username: username.trim(),
         password: password.trim(),
       });
 
+      if (!response?.userId || !response?.username) {
+        throw new Error("Login succeeded but user session data is missing.");
+      }
+
+      saveAuthState({
+        userId: response.userId,
+        username: response.username,
+      });
+
       setMessageType("success");
-      setMessage("Login successful");
+      setMessage(response?.message || "Login successful.");
     } catch (error) {
       setMessageType("error");
       setMessage(error instanceof Error ? error.message : "Login failed. Please try again.");
@@ -84,9 +94,7 @@ function LoginForm() {
           <button type="submit" disabled={isLoading}>
             {isLoading ? "Logging in..." : "Login"}
           </button>
-          <a href="/forgot-password" onClick={(event) => event.preventDefault()}>
-            Forgot Password?
-          </a>
+          <Link to="/signup">Need an account? Signup</Link>
         </form>
 
         {message && <DisplayStatus type={messageType} message={message} />}

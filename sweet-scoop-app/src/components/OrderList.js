@@ -1,40 +1,15 @@
-import { useEffect } from "react";
 import OrderItem from "./OrderItem";
-
-const STORAGE_KEY = "sweetScoopOrder";
 
 function OrderList({
   orderItems,
   onRemoveItem,
-  onLoadOrder,
   onPlaceOrder,
   isPlacingOrder,
   orderMessage,
   orderMessageType,
 }) {
-  useEffect(() => {
-    const savedOrder = localStorage.getItem(STORAGE_KEY);
-
-    if (!savedOrder) {
-      return;
-    }
-
-    try {
-      const parsedOrder = JSON.parse(savedOrder);
-      if (Array.isArray(parsedOrder)) {
-        onLoadOrder(parsedOrder);
-      }
-    } catch {
-      localStorage.removeItem(STORAGE_KEY);
-    }
-  }, [onLoadOrder]);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(orderItems));
-  }, [orderItems]);
-
   const totalOrderPrice = orderItems
-    .reduce((sum, item) => sum + item.unitPrice * item.quantity, 0)
+    .reduce((sum, item) => sum + Number(item.price || item.unitPrice || 0) * Number(item.quantity || 0), 0)
     .toFixed(2);
 
   return (

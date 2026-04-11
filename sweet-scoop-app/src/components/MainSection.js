@@ -1,11 +1,13 @@
 // MainSection.js
 import { useEffect, useState } from "react";
-import flavors from "../flavors";
-import reviews from "../reviews";
+import { fetchFlavors, fetchReviews } from "../api";
+import DisplayStatus from "./DisplayStatus";
 
 function MainSection() {
   const [featuredFlavors, setFeaturedFlavors] = useState([]);
   const [featuredReviews, setFeaturedReviews] = useState([]);
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
 
   const getRandomItems = (array, count) => {
     const shuffled = [...array].sort(() => Math.random() - 0.5);
@@ -17,8 +19,32 @@ function MainSection() {
   };
 
   useEffect(() => {
-    setFeaturedFlavors(getRandomItems(flavors, 3));
-    setFeaturedReviews(getRandomItems(reviews, 2));
+    let isCancelled = false;
+
+    const loadHomepageData = async () => {
+      try {
+        const [flavors, reviews] = await Promise.all([fetchFlavors(), fetchReviews()]);
+
+        if (isCancelled) {
+          return;
+        }
+
+        setFeaturedFlavors(getRandomItems(flavors, 3));
+        setFeaturedReviews(getRandomItems(reviews, 2));
+        setMessage("");
+      } catch (error) {
+        if (!isCancelled) {
+          setMessageType("error");
+          setMessage(error instanceof Error ? error.message : "Unable to load homepage data.");
+        }
+      }
+    };
+
+    loadHomepageData();
+
+    return () => {
+      isCancelled = true;
+    };
   }, []);
 
   return (
@@ -35,6 +61,7 @@ function MainSection() {
 
       <section>
         <h2>Featured Flavors</h2>
+        {message ? <DisplayStatus type={messageType} message={message} /> : null}
         <div className="flavorgrid">
           {featuredFlavors.map((flavor) => (
             <div key={flavor.id} className="flavor-card">

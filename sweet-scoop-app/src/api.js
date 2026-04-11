@@ -1,150 +1,148 @@
-const DEFAULT_BASE_URL = "http://localhost:5000/api";
+const DEFAULT_BASE_URL = "http://localhost:5000";
 
 export const API_BASE_URL =
   process.env.REACT_APP_API_BASE_URL?.replace(/\/$/, "") || DEFAULT_BASE_URL;
 
-const LOGIN_PATHS = [
-  process.env.REACT_APP_LOGIN_PATH,
-  "/login",
-  "/api/login",
-  "/auth/login",
-  "/users/login",
-].filter(Boolean);
+const SIGNUP_PATHS = [process.env.REACT_APP_SIGNUP_PATH, "/signup", "/api/signup"].filter(Boolean);
+const LOGIN_PATHS = [process.env.REACT_APP_LOGIN_PATH, "/login", "/api/login"].filter(Boolean);
+const REVIEWS_PATHS = [process.env.REACT_APP_REVIEWS_PATH, "/reviews", "/api/reviews"].filter(Boolean);
+const FLAVORS_PATHS = [process.env.REACT_APP_FLAVORS_PATH, "/flavors", "/api/flavors"].filter(Boolean);
+const CART_PATHS = [process.env.REACT_APP_CART_PATH, "/cart", "/api/cart"].filter(Boolean);
+const ORDERS_PATHS = [process.env.REACT_APP_ORDERS_PATH, "/orders", "/api/orders"].filter(Boolean);
 
-const FLAVOR_PATHS = [
-  process.env.REACT_APP_FLAVORS_PATH,
-  "/flavors",
-  "/api/flavors",
-  "/menu",
-  "/api/menu",
-  "/products",
-].filter(Boolean);
+function buildUrl(path, queryParams) {
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  const url = new URL(`${API_BASE_URL}${normalizedPath}`);
 
-const ORDER_PATHS = [
-  process.env.REACT_APP_ORDER_PATH,
-  "/orders",
-  "/api/orders",
-  "/order",
-].filter(Boolean);
+  if (queryParams) {
+    Object.entries(queryParams).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        url.searchParams.set(key, String(value));
+      }
+    });
+  }
 
-function buildUrl(path) {
-  return `${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+  return url.toString();
 }
 
-async function parseErrorMessage(response) {
-  try {
-    const payload = await response.json();
-    return (
-      payload?.message ||
-      payload?.error ||
-      payload?.detail ||
-      "Login failed. Please try again."
-    );
-  } catch {
-    return "Login failed. Please try again.";
+async function parseResponsePayload(response) {
+  const contentType = response.headers.get("content-type") || "";
+  if (!contentType.includes("application/json")) {
+    return null;
   }
+
+  try {
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
+function getPayloadMessage(payload, fallback) {
+  return payload?.message || payload?.error || payload?.detail || fallback;
+}
+
+async function requestAcrossPaths(paths, method, body, queryParams, fallbackMessage) {
+  let lastError = fallbackMessage;
+
+  for (const path of paths) {
+    const response = await fetch(buildUrl(path, queryParams), {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+
+    const payload = await parseResponsePayload(response);
+
+    if (response.ok) {
+      return payload;
+    }
+
+    lastError = getPayloadMessage(payload, fallbackMessage);
+
+    if (response.status !== 404) {
+      break;
+    }
+  }
+
+  throw new Error(lastError);
+}
+
+export async function signupUser(credentials) {
+  return requestAcrossPaths(SIGNUP_PATHS, "POST", credentials, null, "Registration failed.");
 }
 
 export async function loginUser(credentials) {
-  let lastError = "Login failed. Please try again.";
+  return requestAcrossPaths(LOGIN_PATHS, "POST", credentials, null, "Login failed. Please try again.");
+}
 
-  for (const path of LOGIN_PATHS) {
-    const response = await fetch(buildUrl(path), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(credentials),
-    });
-
-    if (response.ok) {
-      const contentType = response.headers.get("content-type") || "";
-      if (contentType.includes("application/json")) {
-        return response.json();
-      }
-
-      return null;
-    }
-
-    if (response.status !== 404) {
-      lastError = await parseErrorMessage(response);
-      break;
-    }
-
-    lastError = await parseErrorMessage(response);
-  }
-
-  throw new Error(lastError);
+export async function fetchReviews() {
+  const payload = await requestAcrossPaths(REVIEWS_PATHS, "GET", null, null, "Unable to load reviews.");
+  return Array.isArray(payload?.reviews) ? payload.reviews : Array.isArray(payload) ? payload : [];
 }
 
 export async function fetchFlavors() {
-  let lastError = "Unable to load flavors.";
-
-  for (const path of FLAVOR_PATHS) {
-    const response = await fetch(buildUrl(path));
-
-    if (response.ok) {
-      const payload = await response.json();
-
-      if (Array.isArray(payload)) {
-        return payload;
-      }
-
-      if (Array.isArray(payload?.flavors)) {
-        return payload.flavors;
-      }
-
-      if (Array.isArray(payload?.items)) {
-        return payload.items;
-      }
-
-      if (Array.isArray(payload?.products)) {
-        return payload.products;
-      }
-
-      return [];
-    }
-
-    if (response.status !== 404) {
-      lastError = await parseErrorMessage(response);
-      break;
-    }
-
-    lastError = await parseErrorMessage(response);
-  }
-
-  throw new Error(lastError);
+  const payload = await requestAcrossPaths(FLAVORS_PATHS, "GET", null, null, "Unable to load flavors.");
+  return Array.isArray(payload?.flavors) ? payload.flavors : Array.isArray(payload) ? payload : [];
 }
 
-export async function submitOrder(order) {
-  let lastError = "Unable to submit order.";
+export async function fetchCart(userId) {
+  const payload = await requestAcrossPaths(
+    CART_PATHS,
+    "GET",
+    null,
+    { userId },
+    "Unable to load cart."
+  );
+  return Array.isArray(payload?.cart) ? payload.cart : [];
+}
 
-  for (const path of ORDER_PATHS) {
-    const response = await fetch(buildUrl(path), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(order),
-    });
+export async function addToCart(userId, flavorId) {
+  const payload = await requestAcrossPaths(
+    CART_PATHS,
+    "POST",
+    { userId, flavorId },
+    null,
+    "Unable to add flavor to cart."
+  );
+  return Array.isArray(payload?.cart) ? payload.cart : [];
+}
 
-    if (response.ok) {
-      const contentType = response.headers.get("content-type") || "";
+export async function updateCartQuantity(userId, flavorId, quantity) {
+  const payload = await requestAcrossPaths(
+    CART_PATHS,
+    "PUT",
+    { userId, flavorId, quantity },
+    null,
+    "Unable to update cart."
+  );
+  return Array.isArray(payload?.cart) ? payload.cart : [];
+}
 
-      if (contentType.includes("application/json")) {
-        return response.json();
-      }
+export async function removeCartItem(userId, flavorId) {
+  const payload = await requestAcrossPaths(
+    CART_PATHS,
+    "DELETE",
+    { userId, flavorId },
+    null,
+    "Unable to remove item from cart."
+  );
+  return Array.isArray(payload?.cart) ? payload.cart : [];
+}
 
-      return null;
-    }
+export async function placeOrder(userId) {
+  return requestAcrossPaths(ORDERS_PATHS, "POST", { userId }, null, "Unable to place order.");
+}
 
-    if (response.status !== 404) {
-      lastError = await parseErrorMessage(response);
-      break;
-    }
-
-    lastError = await parseErrorMessage(response);
-  }
-
-  throw new Error(lastError);
+export async function fetchOrderHistory(userId) {
+  const payload = await requestAcrossPaths(
+    ORDERS_PATHS,
+    "GET",
+    null,
+    { userId },
+    "Unable to load order history."
+  );
+  return Array.isArray(payload?.orders) ? payload.orders : [];
 }

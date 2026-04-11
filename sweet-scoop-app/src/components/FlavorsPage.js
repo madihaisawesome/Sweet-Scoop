@@ -1,43 +1,58 @@
 import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import FlavorCatalog from "./FlavorCatalog";
 import OrderList from "./OrderList";
-import localFlavors from "../flavors";
-import { fetchFlavors, submitOrder } from "../api";
+import { getAuthState } from "../auth";
+import {
+  addToCart,
+  fetchCart,
+  fetchFlavors,
+  placeOrder,
+  removeCartItem,
+  updateCartQuantity,
+} from "../api";
 
 function FlavorsPage() {
   const [orderItems, setOrderItems] = useState([]);
-  const [catalogFlavors, setCatalogFlavors] = useState(localFlavors);
+  const [catalogFlavors, setCatalogFlavors] = useState([]);
   const [catalogMessage, setCatalogMessage] = useState("");
   const [catalogLoading, setCatalogLoading] = useState(true);
   const [orderMessage, setOrderMessage] = useState("");
   const [orderMessageType, setOrderMessageType] = useState("");
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     let isCancelled = false;
 
-    const loadFlavors = async () => {
+    const loadInitialData = async () => {
+      const authState = getAuthState();
+
+      if (!authState?.userId) {
+        navigate("/login", { replace: true });
+        return;
+      }
+
       try {
         setCatalogLoading(true);
-        const backendFlavors = await fetchFlavors();
+        const [backendFlavors, backendCart] = await Promise.all([
+          fetchFlavors(),
+          fetchCart(authState.userId),
+        ]);
 
         if (isCancelled) {
           return;
         }
 
-        if (backendFlavors.length > 0) {
-          setCatalogFlavors(backendFlavors);
-          setCatalogMessage("");
-        } else {
-          setCatalogFlavors(localFlavors);
-          setCatalogMessage("Using the built-in flavor list.");
-        }
-      } catch {
+        setCatalogFlavors(backendFlavors);
+        setOrderItems(backendCart);
+        setCatalogMessage("");
+      } catch (error) {
         if (!isCancelled) {
-          setCatalogFlavors(localFlavors);
-          setCatalogMessage("Using the built-in flavor list.");
+          setCatalogMessage(error instanceof Error ? error.message : "Unable to load page data.");
         }
       } finally {
         if (!isCancelled) {
@@ -46,60 +61,74 @@ function FlavorsPage() {
       }
     };
 
-    loadFlavors();
+    loadInitialData();
 
     return () => {
       isCancelled = true;
     };
-  }, []);
+  }, [navigate]);
 
-  const handleAddToOrder = useCallback((flavor) => {
-    const unitPrice = Number.parseFloat(flavor.price.replace("$", ""));
+  const handleAddToOrder = useCallback(async (flavor) => {
+    const authState = getAuthState();
 
-    setOrderItems((prevItems) => {
-      const existingItem = prevItems.find((item) => item.id === flavor.id);
+    if (!authState?.userId) {
+      navigate("/login", { replace: true });
+      return;
+    }
 
-      if (existingItem) {
-        return prevItems.map((item) =>
-          item.id === flavor.id ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      }
+    setOrderMessage("");
 
-      return [
-        ...prevItems,
-        {
-          id: flavor.id,
-          name: flavor.name,
-          unitPrice,
-          quantity: 1,
-        },
-      ];
-    });
-  }, []);
-
-  const handleRemoveItem = useCallback((flavorId) => {
-    setOrderItems((prevItems) => {
-      const existingItem = prevItems.find((item) => item.id === flavorId);
-
-      if (!existingItem) {
-        return prevItems;
-      }
-
-      if (existingItem.quantity <= 1) {
-        return prevItems.filter((item) => item.id !== flavorId);
-      }
-
-      return prevItems.map((item) =>
-        item.id === flavorId ? { ...item, quantity: item.quantity - 1 } : item
+    try {
+      const existingItem = orderItems.find(
+        (item) => Number(item.flavorId || item.id) === Number(flavor.id)
       );
-    });
-  }, []);
 
-  const handleLoadOrder = useCallback((loadedOrder) => {
-    setOrderItems(loadedOrder);
-  }, []);
+      const updatedCart = existingItem
+        ? await updateCartQuantity(
+            authState.userId,
+            Number(flavor.id),
+            Number(existingItem.quantity) + 1
+          )
+        : await addToCart(authState.userId, Number(flavor.id));
+
+      setOrderItems(updatedCart);
+      setOrderMessageType("success");
+      setOrderMessage("Cart updated.");
+    } catch (error) {
+      setOrderMessageType("error");
+      setOrderMessage(error instanceof Error ? error.message : "Unable to update cart.");
+    }
+  }, [navigate, orderItems]);
+
+  const handleRemoveItem = useCallback(async (flavorId) => {
+    const authState = getAuthState();
+
+    if (!authState?.userId) {
+      navigate("/login", { replace: true });
+      return;
+    }
+
+    setOrderMessage("");
+
+    try {
+      const updatedCart = await removeCartItem(authState.userId, Number(flavorId));
+      setOrderItems(updatedCart);
+      setOrderMessageType("success");
+      setOrderMessage("Item removed.");
+    } catch (error) {
+      setOrderMessageType("error");
+      setOrderMessage(error instanceof Error ? error.message : "Unable to remove item.");
+    }
+  }, [navigate]);
 
   const handlePlaceOrder = useCallback(async () => {
+    const authState = getAuthState();
+
+    if (!authState?.userId) {
+      navigate("/login", { replace: true });
+      return;
+    }
+
     if (orderItems.length === 0) {
       setOrderMessageType("error");
       setOrderMessage("Add at least one item before placing an order.");
@@ -110,22 +139,18 @@ function FlavorsPage() {
     setOrderMessage("");
 
     try {
-      await submitOrder({
-        items: orderItems,
-        total: Number.parseFloat(
-          orderItems.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0).toFixed(2)
-        ),
-      });
+      const response = await placeOrder(authState.userId);
 
       setOrderMessageType("success");
-      setOrderMessage("Order submitted successfully.");
+      setOrderMessage(response?.message || "Order placed successfully.");
+      setOrderItems([]);
     } catch (error) {
       setOrderMessageType("error");
-      setOrderMessage(error instanceof Error ? error.message : "Unable to submit order.");
+      setOrderMessage(error instanceof Error ? error.message : "Unable to place order.");
     } finally {
       setIsPlacingOrder(false);
     }
-  }, [orderItems]);
+  }, [navigate, orderItems]);
 
   return (
     <div className="flavors-page">
@@ -141,7 +166,6 @@ function FlavorsPage() {
         <OrderList
           orderItems={orderItems}
           onRemoveItem={handleRemoveItem}
-          onLoadOrder={handleLoadOrder}
           onPlaceOrder={handlePlaceOrder}
           isPlacingOrder={isPlacingOrder}
           orderMessage={orderMessage}
