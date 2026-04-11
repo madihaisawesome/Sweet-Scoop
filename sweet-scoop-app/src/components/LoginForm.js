@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DisplayStatus from "./DisplayStatus";
-
-const USERS_API_URL = "https://jsonplaceholder.typicode.com/users";
+import { loginUser } from "../api";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
-  const [requestId, setRequestId] = useState(0);
-  const [authPayload, setAuthPayload] = useState({ username: "", password: "" });
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!username.trim() || !password.trim()) {
@@ -29,59 +27,24 @@ function LoginForm() {
       return;
     }
 
+    setIsLoading(true);
     setMessageType("");
     setMessage("");
-    setAuthPayload({ username: username.trim(), password: password.trim() });
-    setRequestId((prev) => prev + 1);
-  };
+    try {
+      await loginUser({
+        username: username.trim(),
+        password: password.trim(),
+      });
 
-  useEffect(() => {
-    if (requestId === 0) {
-      return;
+      setMessageType("success");
+      setMessage("Login successful");
+    } catch (error) {
+      setMessageType("error");
+      setMessage(error instanceof Error ? error.message : "Login failed. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-
-    let isCancelled = false;
-
-    const authenticateUser = async () => {
-      try {
-        const response = await fetch(USERS_API_URL);
-
-        if (!response.ok) {
-          throw new Error("Unable to fetch users");
-        }
-
-        const users = await response.json();
-        const matchedUser = users.find(
-          (user) =>
-            user.username === authPayload.username &&
-            user.email.toLowerCase() === authPayload.password.toLowerCase()
-        );
-
-        if (isCancelled) {
-          return;
-        }
-
-        if (matchedUser) {
-          setMessageType("success");
-          setMessage("Login successful");
-        } else {
-          setMessageType("error");
-          setMessage("Invalid username or password.");
-        }
-      } catch {
-        if (!isCancelled) {
-          setMessageType("error");
-          setMessage("Login failed. Please try again.");
-        }
-      }
-    };
-
-    authenticateUser();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [requestId, authPayload]);
+  };
 
   useEffect(() => {
     if (messageType !== "success") {
@@ -106,6 +69,7 @@ function LoginForm() {
             type="text"
             value={username}
             onChange={(event) => setUsername(event.target.value)}
+            autoComplete="username"
           />
 
           <label htmlFor="password">Password</label>
@@ -114,9 +78,12 @@ function LoginForm() {
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
+            autoComplete="current-password"
           />
 
-          <button type="submit">Login</button>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
+          </button>
           <a href="/forgot-password" onClick={(event) => event.preventDefault()}>
             Forgot Password?
           </a>

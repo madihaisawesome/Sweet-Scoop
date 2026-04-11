@@ -3,7 +3,15 @@ import OrderItem from "./OrderItem";
 
 const STORAGE_KEY = "sweetScoopOrder";
 
-function OrderList({ orderItems, onRemoveItem, onLoadOrder }) {
+function OrderList({
+  orderItems,
+  onRemoveItem,
+  onLoadOrder,
+  onPlaceOrder,
+  isPlacingOrder,
+  orderMessage,
+  orderMessageType,
+}) {
   useEffect(() => {
     const savedOrder = localStorage.getItem(STORAGE_KEY);
 
@@ -41,8 +49,22 @@ function OrderList({ orderItems, onRemoveItem, onLoadOrder }) {
               <OrderItem key={item.id} item={item} onRemoveItem={onRemoveItem} />
             ))}
             <h3 className="order-total">Total: ${totalOrderPrice}</h3>
+            <button
+              className="place-order"
+              type="button"
+              onClick={onPlaceOrder}
+              disabled={isPlacingOrder}
+            >
+              {isPlacingOrder ? "Placing Order..." : "Place Order"}
+            </button>
           </>
         )}
+
+        {orderMessage ? (
+          <p className={`page-status ${orderMessageType === "success" ? "status-success" : "status-error"}`}>
+            {orderMessage}
+          </p>
+        ) : null}
       </div>
     </div>
   );

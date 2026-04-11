@@ -1,12 +1,57 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import FlavorCatalog from "./FlavorCatalog";
 import OrderList from "./OrderList";
-import flavors from "../flavors";
+import localFlavors from "../flavors";
+import { fetchFlavors, submitOrder } from "../api";
 
 function FlavorsPage() {
   const [orderItems, setOrderItems] = useState([]);
+  const [catalogFlavors, setCatalogFlavors] = useState(localFlavors);
+  const [catalogMessage, setCatalogMessage] = useState("");
+  const [catalogLoading, setCatalogLoading] = useState(true);
+  const [orderMessage, setOrderMessage] = useState("");
+  const [orderMessageType, setOrderMessageType] = useState("");
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    const loadFlavors = async () => {
+      try {
+        setCatalogLoading(true);
+        const backendFlavors = await fetchFlavors();
+
+        if (isCancelled) {
+          return;
+        }
+
+        if (backendFlavors.length > 0) {
+          setCatalogFlavors(backendFlavors);
+          setCatalogMessage("");
+        } else {
+          setCatalogFlavors(localFlavors);
+          setCatalogMessage("Using the built-in flavor list.");
+        }
+      } catch {
+        if (!isCancelled) {
+          setCatalogFlavors(localFlavors);
+          setCatalogMessage("Using the built-in flavor list.");
+        }
+      } finally {
+        if (!isCancelled) {
+          setCatalogLoading(false);
+        }
+      }
+    };
+
+    loadFlavors();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
 
   const handleAddToOrder = useCallback((flavor) => {
     const unitPrice = Number.parseFloat(flavor.price.replace("$", ""));
@@ -54,15 +99,53 @@ function FlavorsPage() {
     setOrderItems(loadedOrder);
   }, []);
 
+  const handlePlaceOrder = useCallback(async () => {
+    if (orderItems.length === 0) {
+      setOrderMessageType("error");
+      setOrderMessage("Add at least one item before placing an order.");
+      return;
+    }
+
+    setIsPlacingOrder(true);
+    setOrderMessage("");
+
+    try {
+      await submitOrder({
+        items: orderItems,
+        total: Number.parseFloat(
+          orderItems.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0).toFixed(2)
+        ),
+      });
+
+      setOrderMessageType("success");
+      setOrderMessage("Order submitted successfully.");
+    } catch (error) {
+      setOrderMessageType("error");
+      setOrderMessage(error instanceof Error ? error.message : "Unable to submit order.");
+    } finally {
+      setIsPlacingOrder(false);
+    }
+  }, [orderItems]);
+
   return (
     <div className="flavors-page">
       <Header />
       <div className="content">
-        <FlavorCatalog flavors={flavors} onAddToOrder={handleAddToOrder} />
+        {catalogLoading ? (
+          <p className="page-status">Loading flavors...</p>
+        ) : null}
+
+        {catalogMessage ? <p className="page-status">{catalogMessage}</p> : null}
+
+        <FlavorCatalog flavors={catalogFlavors} onAddToOrder={handleAddToOrder} />
         <OrderList
           orderItems={orderItems}
           onRemoveItem={handleRemoveItem}
           onLoadOrder={handleLoadOrder}
+          onPlaceOrder={handlePlaceOrder}
+          isPlacingOrder={isPlacingOrder}
+          orderMessage={orderMessage}
+          orderMessageType={orderMessageType}
         />
       </div>
       <Footer />
