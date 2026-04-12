@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { fetchFlavors, fetchReviews } from "../api";
 import DisplayStatus from "./DisplayStatus";
+import localFlavors from "../flavors";
+import localReviews from "../reviews";
 
 function MainSection() {
   const [featuredFlavors, setFeaturedFlavors] = useState([]);
@@ -18,6 +20,18 @@ function MainSection() {
     return "★".repeat(rating) + "☆".repeat(5 - rating);
   };
 
+  const normalizeImagePath = (imagePath) => {
+    if (!imagePath) {
+      return "/images/logo.jpeg";
+    }
+
+    if (imagePath.startsWith("/") || imagePath.startsWith("http")) {
+      return imagePath;
+    }
+
+    return `/${imagePath}`;
+  };
+
   useEffect(() => {
     let isCancelled = false;
 
@@ -29,13 +43,22 @@ function MainSection() {
           return;
         }
 
-        setFeaturedFlavors(getRandomItems(flavors, 3));
-        setFeaturedReviews(getRandomItems(reviews, 2));
+        const fallbackFlavors = getRandomItems(localFlavors, 3);
+        const fallbackReviews = getRandomItems(localReviews, 2);
+
+        setFeaturedFlavors(getRandomItems(flavors.length > 0 ? flavors : fallbackFlavors, 3));
+        setFeaturedReviews(getRandomItems(reviews.length > 0 ? reviews : fallbackReviews, 2));
         setMessage("");
       } catch (error) {
         if (!isCancelled) {
+          setFeaturedFlavors(getRandomItems(localFlavors, 3));
+          setFeaturedReviews(getRandomItems(localReviews, 2));
           setMessageType("error");
-          setMessage(error instanceof Error ? error.message : "Unable to load homepage data.");
+          setMessage(
+            error instanceof Error
+              ? `${error.message} Showing built-in featured content.`
+              : "Unable to load homepage data. Showing built-in featured content."
+          );
         }
       }
     };
@@ -70,7 +93,7 @@ function MainSection() {
               <p>
                 <strong>Price:</strong> {flavor.price}
               </p>
-              <img src={flavor.image} alt={flavor.name} />
+              <img src={normalizeImagePath(flavor.image)} alt={flavor.name} />
             </div>
           ))}
         </div>
